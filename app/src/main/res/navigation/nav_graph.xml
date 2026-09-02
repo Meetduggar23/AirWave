@@ -86,6 +86,9 @@
         <action
             android:id="@+id/action_home_to_chat_history"
             app:destination="@id/chatHistoryFragment" />
+        <action
+            android:id="@+id/action_home_to_about"
+            app:destination="@id/aboutFragment" />
     </fragment>
 
     <fragment
@@ -109,6 +112,11 @@
             android:defaultValue="" />
         <argument
             android:name="deviceName"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="chatId"
             app:argType="string"
             app:nullable="true"
             android:defaultValue="@null" />

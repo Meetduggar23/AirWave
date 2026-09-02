@@ -190,4 +190,44 @@
     <string name="done">हो गया</string>
     <string name="search">खोजें</string>
     <string name="more_options">अधिक विकल्प</string>
+
+    <!-- Sidebar -->
+    <string name="sidebar_search_hint">बातचीत खोजें…</string>
+    <string name="sidebar_new_chat">नई चैट</string>
+    <string name="sidebar_nearby_users">आस-पास के उपयोगकर्ता</string>
+    <string name="sidebar_chats">चैट</string>
+    <string name="sidebar_favorites">पसंदीदा</string>
+    <string name="sidebar_profile">प्रोफ़ाइल</string>
+    <string name="sidebar_settings">सेटिंग्स</string>
+    <string name="sidebar_about">के बारे में</string>
+    <string name="sidebar_more">अधिक</string>
+    <string name="sidebar_pinned">पिन की गई</string>
+    <string name="sidebar_recent">हाल की</string>
+    <string name="sidebar_no_conversations">अभी तक कोई बातचीत नहीं</string>
+    <string name="sidebar_no_results">कोई परिणाम नहीं मिला</string>
+    <string name="sidebar_no_favorites">कोई पसंदीदा बातचीत नहीं</string>
+    <string name="sidebar_profile_type_user">AirWave उपयोगकर्ता</string>
+
+    <!-- Sidebar Context Menu -->
+    <string name="sidebar_menu_open">खोलें</string>
+    <string name="sidebar_menu_pin">ऊपर पिन करें</string>
+    <string name="sidebar_menu_unpin">अनपिन करें</string>
+    <string name="sidebar_menu_mark_read">पठित चिह्नित करें</string>
+    <string name="sidebar_menu_mark_unread">अपठित चिह्नित करें</string>
+    <string name="sidebar_menu_mute">म्यूट करें</string>
+    <string name="sidebar_menu_unmute">अनम्यूट करें</string>
+    <string name="sidebar_menu_delete">हटाएं</string>
+    <string name="sidebar_menu_view_profile">प्रोफ़ाइल देखें</string>
+
+    <!-- Sidebar Toast -->
+    <string name="sidebar_toast_pinned">बातचीत पिन की गई</string>
+    <string name="sidebar_toast_unpinned">बातचीत अनपिन की गई</string>
+    <string name="sidebar_toast_muted">बातचीत म्यूट की गई</string>
+    <string name="sidebar_toast_unmuted">बातचीत अनम्यूट की गई</string>
+    <string name="sidebar_toast_deleted">बातचीत हटा दी गई</string>
+    <string name="sidebar_toast_profile">प्रोफ़ाइल: %1$s</string>
+
+    <!-- Sidebar Delete -->
+    <string name="sidebar_delete_title">बातचीत हटाएं</string>
+    <string name="sidebar_delete_message">%1$s से बातचीत हटाएं? इससे सभी संदेश हट जाएंगे।</string>
 </resources>

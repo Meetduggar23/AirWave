@@ -14,9 +14,11 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.execSQL("DROP TABLE IF EXISTS messages")
-        db.execSQL("DROP TABLE IF EXISTS conversations")
-        onCreate(db)
+        if (oldVersion < 2) {
+            try { db.execSQL("ALTER TABLE conversations ADD COLUMN isPinned INTEGER DEFAULT 0") } catch (e: Exception) {}
+            try { db.execSQL("ALTER TABLE conversations ADD COLUMN isMuted INTEGER DEFAULT 0") } catch (e: Exception) {}
+            try { db.execSQL("ALTER TABLE conversations ADD COLUMN isFavorite INTEGER DEFAULT 0") } catch (e: Exception) {}
+        }
     }
 
     fun insertMessage(message: MessageEntity): Long {
@@ -58,6 +60,50 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val conversations = mutableListOf<ConversationEntity>()
         val cursor = readableDatabase.query(
             TABLE_CONVERSATIONS, null, null, null,
+            null, null, "$COL_IS_PINNED DESC, $COL_LAST_MESSAGE_TIME DESC"
+        )
+        cursor.use {
+            while (it.moveToNext()) {
+                conversations.add(cursorToConversation(it))
+            }
+        }
+        return conversations
+    }
+
+    fun getPinnedConversations(): List<ConversationEntity> {
+        val conversations = mutableListOf<ConversationEntity>()
+        val cursor = readableDatabase.query(
+            TABLE_CONVERSATIONS, null, "$COL_IS_PINNED = 1", null,
+            null, null, "$COL_LAST_MESSAGE_TIME DESC"
+        )
+        cursor.use {
+            while (it.moveToNext()) {
+                conversations.add(cursorToConversation(it))
+            }
+        }
+        return conversations
+    }
+
+    fun getRecentConversations(): List<ConversationEntity> {
+        val conversations = mutableListOf<ConversationEntity>()
+        val cursor = readableDatabase.query(
+            TABLE_CONVERSATIONS, null, "$COL_IS_PINNED = 0", null,
+            null, null, "$COL_LAST_MESSAGE_TIME DESC"
+        )
+        cursor.use {
+            while (it.moveToNext()) {
+                conversations.add(cursorToConversation(it))
+            }
+        }
+        return conversations
+    }
+
+    fun searchConversations(query: String): List<ConversationEntity> {
+        val conversations = mutableListOf<ConversationEntity>()
+        val cursor = readableDatabase.query(
+            TABLE_CONVERSATIONS, null,
+            "$COL_DEVICE_NAME LIKE ? OR $COL_LAST_MESSAGE LIKE ?",
+            arrayOf("%$query%", "%$query%"),
             null, null, "$COL_LAST_MESSAGE_TIME DESC"
         )
         cursor.use {
@@ -87,12 +133,49 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             put(COL_LAST_MESSAGE, conversation.lastMessage)
             put(COL_LAST_MESSAGE_TIME, conversation.lastMessageTime)
             put(COL_UNREAD_COUNT, conversation.unreadCount)
+            put(COL_IS_PINNED, if (conversation.isPinned) 1 else 0)
+            put(COL_IS_MUTED, if (conversation.isMuted) 1 else 0)
+            put(COL_IS_FAVORITE, if (conversation.isFavorite) 1 else 0)
         }
         if (existing != null) {
             writableDatabase.update(TABLE_CONVERSATIONS, values, "$COL_CHAT_ID = ?", arrayOf(conversation.chatId))
         } else {
             writableDatabase.insert(TABLE_CONVERSATIONS, null, values)
         }
+    }
+
+    fun togglePin(chatId: String) {
+        val conv = getConversation(chatId) ?: return
+        val values = ContentValues().apply {
+            put(COL_IS_PINNED, if (conv.isPinned) 0 else 1)
+        }
+        writableDatabase.update(TABLE_CONVERSATIONS, values, "$COL_CHAT_ID = ?", arrayOf(chatId))
+    }
+
+    fun toggleMute(chatId: String) {
+        val conv = getConversation(chatId) ?: return
+        val values = ContentValues().apply {
+            put(COL_IS_MUTED, if (conv.isMuted) 0 else 1)
+        }
+        writableDatabase.update(TABLE_CONVERSATIONS, values, "$COL_CHAT_ID = ?", arrayOf(chatId))
+    }
+
+    fun toggleFavorite(chatId: String) {
+        val conv = getConversation(chatId) ?: return
+        val values = ContentValues().apply {
+            put(COL_IS_FAVORITE, if (conv.isFavorite) 0 else 1)
+        }
+        writableDatabase.update(TABLE_CONVERSATIONS, values, "$COL_CHAT_ID = ?", arrayOf(chatId))
+    }
+
+    fun markAsRead(chatId: String) {
+        val values = ContentValues().apply { put(COL_UNREAD_COUNT, 0) }
+        writableDatabase.update(TABLE_CONVERSATIONS, values, "$COL_CHAT_ID = ?", arrayOf(chatId))
+    }
+
+    fun markAsUnread(chatId: String) {
+        val values = ContentValues().apply { put(COL_UNREAD_COUNT, 1) }
+        writableDatabase.update(TABLE_CONVERSATIONS, values, "$COL_CHAT_ID = ?", arrayOf(chatId))
     }
 
     fun deleteConversation(chatId: String) {
@@ -123,13 +206,16 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             deviceName = cursor.getString(cursor.getColumnIndexOrThrow(COL_DEVICE_NAME)),
             lastMessage = cursor.getString(cursor.getColumnIndexOrThrow(COL_LAST_MESSAGE)),
             lastMessageTime = cursor.getLong(cursor.getColumnIndexOrThrow(COL_LAST_MESSAGE_TIME)),
-            unreadCount = cursor.getInt(cursor.getColumnIndexOrThrow(COL_UNREAD_COUNT))
+            unreadCount = cursor.getInt(cursor.getColumnIndexOrThrow(COL_UNREAD_COUNT)),
+            isPinned = cursor.getInt(cursor.getColumnIndexOrThrow(COL_IS_PINNED)) == 1,
+            isMuted = cursor.getInt(cursor.getColumnIndexOrThrow(COL_IS_MUTED)) == 1,
+            isFavorite = cursor.getInt(cursor.getColumnIndexOrThrow(COL_IS_FAVORITE)) == 1
         )
     }
 
     companion object {
         private const val DATABASE_NAME = "airwave.db"
-        private const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 2
 
         private const val TABLE_MESSAGES = "messages"
         private const val TABLE_CONVERSATIONS = "conversations"
@@ -148,6 +234,9 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         private const val COL_LAST_MESSAGE = "lastMessage"
         private const val COL_LAST_MESSAGE_TIME = "lastMessageTime"
         private const val COL_UNREAD_COUNT = "unreadCount"
+        private const val COL_IS_PINNED = "isPinned"
+        private const val COL_IS_MUTED = "isMuted"
+        private const val COL_IS_FAVORITE = "isFavorite"
 
         private const val CREATE_MESSAGES_TABLE = """
             CREATE TABLE $TABLE_MESSAGES (
@@ -169,7 +258,10 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 $COL_DEVICE_NAME TEXT,
                 $COL_LAST_MESSAGE TEXT,
                 $COL_LAST_MESSAGE_TIME INTEGER,
-                $COL_UNREAD_COUNT INTEGER
+                $COL_UNREAD_COUNT INTEGER,
+                $COL_IS_PINNED INTEGER DEFAULT 0,
+                $COL_IS_MUTED INTEGER DEFAULT 0,
+                $COL_IS_FAVORITE INTEGER DEFAULT 0
             )
         """
 
