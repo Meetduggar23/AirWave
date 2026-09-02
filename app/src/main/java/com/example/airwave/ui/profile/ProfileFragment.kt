@@ -52,7 +52,12 @@ class ProfileFragment : Fragment() {
         tvNickname.text = PreferencesHelper.nickname.ifEmpty { "AirWave User" }
         tvStatus.text = PreferencesHelper.status
         val btManager = requireContext().getSystemService(android.content.Context.BLUETOOTH_SERVICE) as? android.bluetooth.BluetoothManager
-        val address = btManager?.adapter?.address?.takeLast(8) ?: "Unknown"
-        tvIdentity.text = "AirWave ID: $address"
+        val address = btManager?.adapter?.address
+        val displayId = if (address != null && address.length >= 8) {
+            address.takeLast(8).replace(":", "")
+        } else {
+            "Unknown"
+        }
+        tvIdentity.text = "AirWave ID: $displayId"
     }
 }

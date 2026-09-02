@@ -35,7 +35,7 @@ import java.util.Locale
 
 class ChatFragment : Fragment() {
 
-    private lateinit var bluetoothManager: BluetoothManager
+    private var bluetoothManager: BluetoothManager? = null
     private lateinit var rvMessages: RecyclerView
     private lateinit var etMessage: EditText
     private lateinit var btnSend: ImageButton
@@ -94,8 +94,9 @@ class ChatFragment : Fragment() {
         btnVoice.setOnClickListener { startVoiceInput() }
         btnMore.setOnClickListener { showMenu(it) }
 
-        bluetoothManager.onMessageReceived = { message ->
+        bluetoothManager?.onMessageReceived = { message ->
             handler.post {
+                if (!isAdded) return@post
                 val msg = MessageEntity(
                     chatId = deviceAddress,
                     senderAddress = deviceAddress,
@@ -108,8 +109,9 @@ class ChatFragment : Fragment() {
             }
         }
 
-        bluetoothManager.onConnectionStateChanged = { state ->
+        bluetoothManager?.onConnectionStateChanged = { state ->
             handler.post {
+                if (!isAdded) return@post
                 when (state) {
                     BluetoothManager.ConnectionState.CONNECTED -> {
                         tvStatus.text = getString(R.string.bluetooth_connected)
@@ -135,6 +137,7 @@ class ChatFragment : Fragment() {
             val savedMessages = withContext(Dispatchers.IO) {
                 db.getMessagesForChat(deviceAddress)
             }
+            if (!isAdded) return@launch
             messages.clear()
             messages.addAll(savedMessages)
             messageAdapter.notifyDataSetChanged()
@@ -152,7 +155,7 @@ class ChatFragment : Fragment() {
         val btAdapter = btManager?.adapter
         val device = btAdapter?.getRemoteDevice(deviceAddress)
         if (device != null) {
-            bluetoothManager.connectToDevice(device)
+            bluetoothManager?.connectToDevice(device)
         }
     }
 
@@ -160,7 +163,12 @@ class ChatFragment : Fragment() {
         val text = etMessage.text?.toString()?.trim() ?: ""
         if (text.isEmpty()) return
 
-        val sent = bluetoothManager.sendMessage(text)
+        if (bluetoothManager?.getState() != BluetoothManager.ConnectionState.CONNECTED) {
+            Toast.makeText(context, R.string.bluetooth_disconnected, Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val sent = bluetoothManager?.sendMessage(text) ?: false
         val msg = MessageEntity(
             chatId = deviceAddress,
             senderAddress = "local",
@@ -205,7 +213,7 @@ class ChatFragment : Fragment() {
     private fun startVoiceInput() {
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
             putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().toLanguageTag())
             putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.chat_voice))
         }
         try {
@@ -240,7 +248,7 @@ class ChatFragment : Fragment() {
                     true
                 }
                 R.id.action_disconnect -> {
-                    bluetoothManager.disconnect()
+                    bluetoothManager?.disconnect()
                     findNavController().popBackStack()
                     true
                 }
@@ -262,5 +270,7 @@ class ChatFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         handler.removeCallbacksAndMessages(null)
+        bluetoothManager?.destroy()
+        bluetoothManager = null
     }
 }

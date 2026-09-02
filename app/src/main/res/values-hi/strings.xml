@@ -226,6 +226,8 @@
     <string name="sidebar_toast_unmuted">बातचीत अनम्यूट की गई</string>
     <string name="sidebar_toast_deleted">बातचीत हटा दी गई</string>
     <string name="sidebar_toast_profile">प्रोफ़ाइल: %1$s</string>
+    <string name="settings_data_cleared">डेटा साफ़ किया गया</string>
+    <string name="settings_all_chats_cleared">सभी चैट साफ़ की गई</string>
 
     <!-- Sidebar Delete -->
     <string name="sidebar_delete_title">बातचीत हटाएं</string>

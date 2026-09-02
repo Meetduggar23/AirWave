@@ -12,10 +12,13 @@ class MessageThread(
 
     private val inputStream: InputStream? = socket.inputStream
     private val outputStream: OutputStream? = socket.outputStream
-    private var isRunning = true
+
+    @Volatile
+    var isRunning = true
+        private set
 
     override fun run() {
-        val buffer = ByteArray(1024)
+        val buffer = ByteArray(4096)
         val messageBuffer = StringBuilder()
 
         while (isRunning) {
@@ -30,7 +33,6 @@ class MessageThread(
                 val chunk = String(buffer, 0, bytesRead, StandardCharsets.UTF_8)
                 messageBuffer.append(chunk)
 
-                // Process complete messages (delimited by newline)
                 while (true) {
                     val newlineIndex = messageBuffer.indexOf("\n")
                     if (newlineIndex == -1) break
@@ -52,9 +54,11 @@ class MessageThread(
         }
     }
 
+    @Synchronized
     fun sendMessage(text: String) {
         try {
-            val message = "$text\n"
+            val safeText = text.replace("\n", " ").replace("\r", "")
+            val message = "$safeText\n"
             outputStream?.write(message.toByteArray(StandardCharsets.UTF_8))
             outputStream?.flush()
         } catch (e: IOException) {

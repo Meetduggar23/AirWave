@@ -201,7 +201,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/btnChats"
+                    android:id="@+id/btnChatsSidebar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -292,7 +292,7 @@
                     android:paddingBottom="4dp" />
 
                 <LinearLayout
-                    android:id="@+id/btnProfile"
+                    android:id="@+id/btnProfileSidebar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -319,7 +319,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/btnSettings"
+                    android:id="@+id/btnSettingsSidebar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"

@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="appicon.png" alt="AirWave Logo" width="200"/>
+  <img src="appicon.png" alt="AirWave Logo" width="150"/>
 </p>
 
 <h1 align="center">AirWave</h1>
@@ -20,29 +20,29 @@ AirWave is a modern Android messaging app that lets you chat with people nearby 
 
 ## Features
 
-- **Offline Bluetooth Chat** — Send and receive messages directly between nearby devices
-- **Device Discovery** — Find nearby AirWave users automatically
-- **Local Profile** — Create a nickname-based identity, no account required
-- **Chat History** — All conversations stored locally on your device
-- **Voice-to-Text** — Speak your messages using Android speech recognition
-- **Theme System** — Light, Dark, or System Default theme
-- **8 Accent Colors** — Blue, Purple, Green, Orange, Red, Teal, Pink, and Default AirWave
-- **Text Scaling** — Small, Default, Large, Extra Large text sizes
-- **High Contrast** — Accessibility-friendly high contrast mode
-- **Multi-Language** — English and Hindi support
-- **Reduced Motion** — Accessibility option to minimize animations
-- **Notifications** — Local notifications for new messages and connections
-- **Material Design 3** — Clean, modern UI following Material Design guidelines
+* **Offline Bluetooth Chat** — Send and receive messages directly between nearby devices
+* **Device Discovery** — Find nearby AirWave users automatically
+* **Local Profile** — Create a nickname-based identity, no account required
+* **Chat History** — All conversations stored locally on your device
+* **Voice-to-Text** — Speak your messages using Android speech recognition
+* **Theme System** — Light, Dark, or System Default theme
+* **8 Accent Colors** — Blue, Purple, Green, Orange, Red, Teal, Pink, and Default AirWave
+* **Text Scaling** — Small, Default, Large, Extra Large text sizes
+* **High Contrast** — Accessibility-friendly high contrast mode
+* **Multi-Language** — English and Hindi support
+* **Reduced Motion** — Accessibility option to minimize animations
+* **Notifications** — Local notifications for new messages and connections
+* **Material Design 3** — Clean, modern UI following Material Design guidelines
 
 ## Screenshots
 
-| Splash | Onboarding | Home | Nearby Users | Chat | Settings |
-|--------|-----------|------|-------------|------|----------|
+| Splash                | Onboarding                 | Home                        | Nearby Users                  | Chat                         | Settings                               |
+| --------------------- | -------------------------- | --------------------------- | ----------------------------- | ---------------------------- | -------------------------------------- |
 | Branded splash screen | 3-page feature walkthrough | Status cards, quick actions | Scan & connect nearby devices | Message bubbles, voice input | Theme, accent, language, accessibility |
 
 ## Architecture
 
-```
+```text
 UI (Fragments + XML Layouts)
     ↓
 ViewModel / Managers
@@ -54,33 +54,33 @@ Local Storage (SQLite + SharedPreferences)
 
 ## Tech Stack
 
-- **Language:** Kotlin
-- **UI:** XML Layouts + Material Design 3
-- **Navigation:** Jetpack Navigation Component
-- **Database:** SQLite (raw SQLiteDatabase)
-- **Storage:** SharedPreferences
-- **Bluetooth:** Android Bluetooth RFCOMM APIs
-- **Async:** Kotlin Coroutines
-- **Images:** Glide
+* **Language:** Kotlin
+* **UI:** XML Layouts + Material Design 3
+* **Navigation:** Jetpack Navigation Component
+* **Database:** SQLite (raw SQLiteDatabase)
+* **Storage:** SharedPreferences
+* **Bluetooth:** Android Bluetooth RFCOMM APIs
+* **Async:** Kotlin Coroutines
+* **Images:** Glide
 
 ## Requirements
 
-- Android 7.0 (API 24) or higher
-- Bluetooth-enabled device
-- Two physical Android phones for testing chat
+* Android 7.0 (API 24) or higher
+* Bluetooth-enabled device
+* Two physical Android phones for testing chat
 
 ## Permissions
 
-| Permission | Purpose |
-|-----------|---------|
-| `BLUETOOTH` | Core Bluetooth communication |
-| `BLUETOOTH_ADMIN` | Device discovery |
-| `BLUETOOTH_CONNECT` | Connect to nearby devices (Android 12+) |
-| `BLUETOOTH_SCAN` | Discover nearby devices (Android 12+) |
-| `BLUETOOTH_ADVERTISE` | Be visible to other AirWave users |
+| Permission             | Purpose                                                    |
+| ---------------------- | ---------------------------------------------------------- |
+| `BLUETOOTH`            | Core Bluetooth communication                               |
+| `BLUETOOTH_ADMIN`      | Device discovery                                           |
+| `BLUETOOTH_CONNECT`    | Connect to nearby devices (Android 12+)                    |
+| `BLUETOOTH_SCAN`       | Discover nearby devices (Android 12+)                      |
+| `BLUETOOTH_ADVERTISE`  | Be visible to other AirWave users                          |
 | `ACCESS_FINE_LOCATION` | Required for Bluetooth discovery on older Android versions |
-| `RECORD_AUDIO` | Voice-to-text input |
-| `POST_NOTIFICATIONS` | Message and connection notifications |
+| `RECORD_AUDIO`         | Voice-to-text input                                        |
+| `POST_NOTIFICATIONS`   | Message and connection notifications                       |
 
 ## Getting Started
 
@@ -93,11 +93,17 @@ Local Storage (SQLite + SharedPreferences)
 
 ## Privacy
 
-- Messages are stored **locally** on your device only
-- No cloud messaging or online accounts required
-- Bluetooth is used solely for nearby device communication
-- Permissions are requested only when needed
+* Messages are stored **locally** on your device only
+* No cloud messaging or online accounts required
+* Bluetooth is used solely for nearby device communication
+* Permissions are requested only when needed
 
 ## License
 
 Made with care for nearby communication.
+
+---
+
+<p align="center">
+  <strong>Made By Meet Duggar</strong>
+</p>

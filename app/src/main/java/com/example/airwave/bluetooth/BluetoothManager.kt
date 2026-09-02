@@ -12,7 +12,9 @@ import android.content.IntentFilter
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import java.util.UUID
+import java.util.concurrent.ConcurrentHashMap
 
 class BluetoothManager(private val context: Context) {
 
@@ -23,13 +25,16 @@ class BluetoothManager(private val context: Context) {
         androidBtManager?.adapter
     }
 
+    @Volatile
     private var isScanning = false
     private val handler = Handler(Looper.getMainLooper())
-    private val discoveredDevices = mutableMapOf<String, BluetoothDevice>()
-    private val airwaveDevices = mutableMapOf<String, AirWaveDevice>()
+    private val discoveredDevices = ConcurrentHashMap<String, BluetoothDevice>()
+    private val airwaveDevices = ConcurrentHashMap<String, AirWaveDevice>()
 
     private var serverSocket: BluetoothServerSocket? = null
+    @Volatile
     private var clientSocket: BluetoothSocket? = null
+    @Volatile
     private var connectedSocket: BluetoothSocket? = null
 
     var onDeviceFound: ((AirWaveDevice) -> Unit)? = null
@@ -41,6 +46,7 @@ class BluetoothManager(private val context: Context) {
     var onSocketReady: ((BluetoothSocket) -> Unit)? = null
 
     private var messageThread: MessageThread? = null
+    private var receiverRegistered = false
 
     val isBluetoothEnabled: Boolean
         get() = bluetoothAdapter?.isEnabled == true
@@ -67,7 +73,7 @@ class BluetoothManager(private val context: Context) {
         discoveredDevices.clear()
         airwaveDevices.clear()
         isScanning = true
-        onDiscoveryStarted?.invoke()
+        handler.post { onDiscoveryStarted?.invoke() }
 
         val filter = IntentFilter().apply {
             addAction(BluetoothDevice.ACTION_FOUND)
@@ -75,7 +81,16 @@ class BluetoothManager(private val context: Context) {
             addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED)
         }
 
-        context.registerReceiver(discoveryReceiver, filter)
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                context.registerReceiver(discoveryReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
+            } else {
+                context.registerReceiver(discoveryReceiver, filter)
+            }
+            receiverRegistered = true
+        } catch (e: Exception) {
+            Log.e("BluetoothManager", "Failed to register receiver", e)
+        }
         bluetoothAdapter?.startDiscovery()
     }
 
@@ -85,12 +100,15 @@ class BluetoothManager(private val context: Context) {
             try {
                 bluetoothAdapter?.cancelDiscovery()
             } catch (e: Exception) {
-                // Ignore
+                Log.w("BluetoothManager", "cancelDiscovery failed", e)
             }
             try {
-                context.unregisterReceiver(discoveryReceiver)
+                if (receiverRegistered) {
+                    context.unregisterReceiver(discoveryReceiver)
+                    receiverRegistered = false
+                }
             } catch (e: Exception) {
-                // Ignore
+                Log.w("BluetoothManager", "unregisterReceiver failed", e)
             }
             isScanning = false
         }
@@ -117,16 +135,16 @@ class BluetoothManager(private val context: Context) {
                                 name = name,
                                 address = address,
                                 device = it,
-                                isAirWave = name.startsWith("AirWave") || true
+                                isAirWave = name.startsWith("AirWave")
                             )
                             airwaveDevices[address] = airwaveDevice
-                            onDeviceFound?.invoke(airwaveDevice)
+                            handler.post { onDeviceFound?.invoke(airwaveDevice) }
                         }
                     }
                 }
                 BluetoothAdapter.ACTION_DISCOVERY_FINISHED -> {
                     isScanning = false
-                    onDiscoveryFinished?.invoke()
+                    handler.post { onDiscoveryFinished?.invoke() }
                 }
                 BluetoothAdapter.ACTION_DISCOVERY_STARTED -> {
                     isScanning = true
@@ -143,35 +161,42 @@ class BluetoothManager(private val context: Context) {
                     "AirWave",
                     AIRWAVE_UUID
                 )
-                onConnectionStateChanged?.invoke(ConnectionState.LISTENING)
+                handler.post { onConnectionStateChanged?.invoke(ConnectionState.LISTENING) }
 
                 while (true) {
                     val socket = serverSocket?.accept() ?: break
+                    if (connectedSocket != null) {
+                        try { socket.close() } catch (e: Exception) { }
+                        continue
+                    }
                     connectedSocket = socket
-                    onSocketReady?.invoke(socket)
-                    onConnectionStateChanged?.invoke(ConnectionState.CONNECTED)
+                    handler.post { onSocketReady?.invoke(socket) }
+                    handler.post { onConnectionStateChanged?.invoke(ConnectionState.CONNECTED) }
                     startListeningForMessages(socket)
                 }
             } catch (e: Exception) {
-                onConnectionStateChanged?.invoke(ConnectionState.FAILED)
+                if (serverSocket != null) {
+                    handler.post { onConnectionStateChanged?.invoke(ConnectionState.FAILED) }
+                }
             }
         }.start()
     }
 
     @SuppressLint("MissingPermission")
     fun connectToDevice(device: BluetoothDevice) {
-        onConnectionStateChanged?.invoke(ConnectionState.CONNECTING)
+        handler.post { onConnectionStateChanged?.invoke(ConnectionState.CONNECTING) }
         Thread {
             try {
-                clientSocket = device.createRfcommSocketToServiceRecord(AIRWAVE_UUID)
+                val socket = device.createRfcommSocketToServiceRecord(AIRWAVE_UUID)
                 bluetoothAdapter?.cancelDiscovery()
-                clientSocket?.connect()
-                connectedSocket = clientSocket
-                onConnectionStateChanged?.invoke(ConnectionState.CONNECTED)
-                onSocketReady?.invoke(clientSocket!!)
-                startListeningForMessages(clientSocket!!)
+                socket.connect()
+                clientSocket = socket
+                connectedSocket = socket
+                handler.post { onConnectionStateChanged?.invoke(ConnectionState.CONNECTED) }
+                handler.post { onSocketReady?.invoke(socket) }
+                startListeningForMessages(socket)
             } catch (e: Exception) {
-                onConnectionStateChanged?.invoke(ConnectionState.FAILED)
+                handler.post { onConnectionStateChanged?.invoke(ConnectionState.FAILED) }
                 try { clientSocket?.close() } catch (e2: Exception) { }
                 clientSocket = null
             }
@@ -179,17 +204,18 @@ class BluetoothManager(private val context: Context) {
     }
 
     private fun startListeningForMessages(socket: BluetoothSocket) {
+        messageThread?.cancel()
         messageThread = MessageThread(socket, { message ->
-            onMessageReceived?.invoke(message)
+            handler.post { onMessageReceived?.invoke(message) }
         }, {
-            onConnectionStateChanged?.invoke(ConnectionState.DISCONNECTED)
+            handler.post { onConnectionStateChanged?.invoke(ConnectionState.DISCONNECTED) }
         })
         messageThread?.start()
     }
 
     fun sendMessage(text: String): Boolean {
         val thread = messageThread ?: return false
-        if (!thread.isAlive) return false
+        if (!thread.isRunning) return false
         thread.sendMessage(text)
         return true
     }
@@ -199,17 +225,26 @@ class BluetoothManager(private val context: Context) {
         messageThread?.cancel()
         messageThread = null
         try { connectedSocket?.close() } catch (e: Exception) { }
-        try { clientSocket?.close() } catch (e: Exception) { }
+        if (connectedSocket !== clientSocket) {
+            try { clientSocket?.close() } catch (e: Exception) { }
+        }
         try { serverSocket?.close() } catch (e: Exception) { }
         connectedSocket = null
         clientSocket = null
         serverSocket = null
-        onConnectionStateChanged?.invoke(ConnectionState.DISCONNECTED)
+        handler.post { onConnectionStateChanged?.invoke(ConnectionState.DISCONNECTED) }
     }
 
     fun destroy() {
         disconnect()
         stopDiscovery()
+        onDeviceFound = null
+        onDiscoveryFinished = null
+        onDiscoveryStarted = null
+        onConnectionStateChanged = null
+        onMessageReceived = null
+        onConnectionRequest = null
+        onSocketReady = null
     }
 
     data class AirWaveDevice(

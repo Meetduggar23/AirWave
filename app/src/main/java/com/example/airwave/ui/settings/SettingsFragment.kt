@@ -96,7 +96,8 @@ class SettingsFragment : Fragment() {
                 .setMessage(R.string.privacy_clear_data_confirm)
                 .setPositiveButton(R.string.yes) { _, _ ->
                     PreferencesHelper.clearAll()
-                    Toast.makeText(context, "Data cleared", Toast.LENGTH_SHORT).show()
+                    loadSettings()
+                    Toast.makeText(context, R.string.settings_data_cleared, Toast.LENGTH_SHORT).show()
                 }
                 .setNegativeButton(R.string.no, null)
                 .show()
@@ -204,7 +205,9 @@ class SettingsFragment : Fragment() {
                 db.deleteAllMessages()
                 db.deleteAllConversations()
             }
-            Toast.makeText(context, "All chats cleared", Toast.LENGTH_SHORT).show()
+            if (isAdded) {
+                Toast.makeText(context, R.string.settings_all_chats_cleared, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

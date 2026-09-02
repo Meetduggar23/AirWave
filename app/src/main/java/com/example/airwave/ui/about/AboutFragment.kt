@@ -21,6 +21,11 @@ class AboutFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val tvVersion = view.findViewById<TextView>(R.id.tvVersion)
-        tvVersion.text = getString(R.string.about_version, "1.0")
+        val versionName = try {
+            requireContext().packageManager.getPackageInfo(requireContext().packageName, 0).versionName
+        } catch (e: Exception) {
+            "1.0"
+        }
+        tvVersion.text = getString(R.string.about_version, versionName)
     }
 }

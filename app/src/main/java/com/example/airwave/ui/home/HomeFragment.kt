@@ -17,32 +17,36 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.button.MaterialButton
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
+import com.google.android.material.divider.MaterialDivider
 import com.example.airwave.R
 import com.example.airwave.data.local.ConversationEntity
 import com.example.airwave.data.local.DatabaseHelper
-import com.example.airwave.ui.adapter.SidebarAdapter
 import com.example.airwave.util.PreferencesHelper
-import com.google.android.material.card.MaterialCardView
-import com.google.android.material.divider.MaterialDivider
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
-class HomeFragment : Fragment(), SidebarAdapter.ConversationListener {
+class HomeFragment : Fragment() {
 
     private lateinit var tvGreeting: TextView
     private lateinit var tvBluetoothStatus: TextView
     private lateinit var tvConnectionStatus: TextView
     private lateinit var btnFindUsers: MaterialButton
-    private lateinit var btnChats: MaterialCardView
-    private lateinit var btnProfile: MaterialCardView
-    private lateinit var btnSettings: MaterialCardView
+    private lateinit var btnChatsHome: MaterialCardView
+    private lateinit var btnProfileHome: MaterialCardView
+    private lateinit var btnSettingsHome: MaterialCardView
     private lateinit var bluetoothStatusDot: View
     private lateinit var connectionStatusDot: View
     private lateinit var toolbar: com.google.android.material.appbar.MaterialToolbar
 
-    // Sidebar
+    // Sidebar (lives in activity_main.xml, must use requireActivity().findViewById)
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var sidebarContent: LinearLayout
     private lateinit var etSearch: EditText
@@ -66,26 +70,27 @@ class HomeFragment : Fragment(), SidebarAdapter.ConversationListener {
 
         db = DatabaseHelper.getInstance(requireContext())
 
-        // Main content
+        // Main content (in fragment_home.xml)
         tvGreeting = view.findViewById(R.id.tvGreeting)
         tvBluetoothStatus = view.findViewById(R.id.tvBluetoothStatus)
         tvConnectionStatus = view.findViewById(R.id.tvConnectionStatus)
         btnFindUsers = view.findViewById(R.id.btnFindUsers)
-        btnChats = view.findViewById(R.id.btnChats)
-        btnProfile = view.findViewById(R.id.btnProfile)
-        btnSettings = view.findViewById(R.id.btnSettings)
+        btnChatsHome = view.findViewById(R.id.btnChats)
+        btnProfileHome = view.findViewById(R.id.btnProfile)
+        btnSettingsHome = view.findViewById(R.id.btnSettings)
         bluetoothStatusDot = view.findViewById(R.id.bluetoothStatusDot)
         connectionStatusDot = view.findViewById(R.id.connectionStatusDot)
         toolbar = view.findViewById(R.id.toolbar)
 
-        // Sidebar setup
-        drawerLayout = requireActivity().findViewById(R.id.drawerLayout)
-        sidebarContent = view.findViewById(R.id.sidebarContent)
-        etSearch = view.findViewById(R.id.etSearch)
-        btnClearSearch = view.findViewById(R.id.btnClearSearch)
-        btnCloseSidebar = view.findViewById(R.id.btnCloseSidebar)
-        tvSidebarNickname = view.findViewById(R.id.tvSidebarNickname)
-        tvSidebarProfileType = view.findViewById(R.id.tvSidebarProfileType)
+        // Sidebar setup (views are in activity_main.xml, not fragment layout)
+        val activity = requireActivity()
+        drawerLayout = activity.findViewById(R.id.drawerLayout)
+        sidebarContent = activity.findViewById(R.id.sidebarContent)
+        etSearch = activity.findViewById(R.id.etSearch)
+        btnClearSearch = activity.findViewById(R.id.btnClearSearch)
+        btnCloseSidebar = activity.findViewById(R.id.btnCloseSidebar)
+        tvSidebarNickname = activity.findViewById(R.id.tvSidebarNickname)
+        tvSidebarProfileType = activity.findViewById(R.id.tvSidebarProfileType)
 
         // Hamburger menu
         toolbar.setNavigationIcon(R.drawable.ic_menu)
@@ -99,37 +104,37 @@ class HomeFragment : Fragment(), SidebarAdapter.ConversationListener {
         }
 
         // Sidebar navigation
-        view.findViewById<LinearLayout>(R.id.btnNewChat).setOnClickListener {
+        activity.findViewById<LinearLayout>(R.id.btnNewChat).setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
             findNavController().navigate(R.id.action_home_to_nearby)
         }
-        view.findViewById<LinearLayout>(R.id.btnNearbyUsers).setOnClickListener {
+        activity.findViewById<LinearLayout>(R.id.btnNearbyUsers).setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
             findNavController().navigate(R.id.action_home_to_nearby)
         }
-        view.findViewById<LinearLayout>(R.id.btnChats).setOnClickListener {
+        activity.findViewById<LinearLayout>(R.id.btnChatsSidebar).setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
             findNavController().navigate(R.id.action_home_to_chat_history)
         }
-        view.findViewById<LinearLayout>(R.id.btnFavorites).setOnClickListener {
+        activity.findViewById<LinearLayout>(R.id.btnFavorites).setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
             showFavorites()
         }
-        view.findViewById<LinearLayout>(R.id.btnProfile).setOnClickListener {
+        activity.findViewById<LinearLayout>(R.id.btnProfileSidebar).setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
             findNavController().navigate(R.id.action_home_to_profile)
         }
-        view.findViewById<LinearLayout>(R.id.btnSettings).setOnClickListener {
+        activity.findViewById<LinearLayout>(R.id.btnSettingsSidebar).setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
             findNavController().navigate(R.id.action_home_to_settings)
         }
-        view.findViewById<LinearLayout>(R.id.btnAbout).setOnClickListener {
+        activity.findViewById<LinearLayout>(R.id.btnAbout).setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
             findNavController().navigate(R.id.action_home_to_about)
         }
 
         // Profile area click
-        view.findViewById<LinearLayout>(R.id.sidebarProfileArea).setOnClickListener {
+        activity.findViewById<LinearLayout>(R.id.sidebarProfileArea).setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
             findNavController().navigate(R.id.action_home_to_profile)
         }
@@ -160,13 +165,13 @@ class HomeFragment : Fragment(), SidebarAdapter.ConversationListener {
         btnFindUsers.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_nearby)
         }
-        btnChats.setOnClickListener {
+        btnChatsHome.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_chat_history)
         }
-        btnProfile.setOnClickListener {
+        btnProfileHome.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_profile)
         }
-        btnSettings.setOnClickListener {
+        btnSettingsHome.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_settings)
         }
 
@@ -204,15 +209,26 @@ class HomeFragment : Fragment(), SidebarAdapter.ConversationListener {
     }
 
     private fun loadSidebarConversations() {
-        isSearchActive = false
-        allConversations = db.getAllConversations()
-        renderConversations(allConversations)
+        viewLifecycleOwner.lifecycleScope.launch {
+            val conversations = withContext(Dispatchers.IO) {
+                isSearchActive = false
+                db.getAllConversations()
+            }
+            if (isAdded) {
+                allConversations = conversations
+                renderConversations(conversations)
+            }
+        }
     }
 
     private fun searchConversations(query: String) {
-        isSearchActive = true
-        val results = db.searchConversations(query)
-        renderConversations(results)
+        viewLifecycleOwner.lifecycleScope.launch {
+            val results = withContext(Dispatchers.IO) {
+                isSearchActive = true
+                db.searchConversations(query)
+            }
+            if (isAdded) renderConversations(results)
+        }
     }
 
     private fun showFavorites() {
@@ -261,8 +277,7 @@ class HomeFragment : Fragment(), SidebarAdapter.ConversationListener {
             sidebarContent.addView(pinnedLabel)
 
             pinned.forEach { conv ->
-                val itemView = createConversationItem(conv)
-                sidebarContent.addView(itemView)
+                sidebarContent.addView(createConversationItem(conv))
             }
         }
 
@@ -284,8 +299,7 @@ class HomeFragment : Fragment(), SidebarAdapter.ConversationListener {
             sidebarContent.addView(recentLabel)
 
             recent.forEach { conv ->
-                val itemView = createConversationItem(conv)
-                sidebarContent.addView(itemView)
+                sidebarContent.addView(createConversationItem(conv))
             }
         }
     }
@@ -381,70 +395,119 @@ class HomeFragment : Fragment(), SidebarAdapter.ConversationListener {
             diff < 3600_000 -> "${diff / 60_000}m"
             cal.get(java.util.Calendar.DAY_OF_YEAR) == nowCal.get(java.util.Calendar.DAY_OF_YEAR) &&
                 cal.get(java.util.Calendar.YEAR) == nowCal.get(java.util.Calendar.YEAR) -> {
-                java.text.SimpleDateFormat("h:mm a", java.util.Locale.getDefault()).format(java.util.Date(timestamp))
+                SimpleDateFormat("h:mm a", Locale.getDefault()).format(Date(timestamp))
             }
-            cal.get(java.util.Calendar.DAY_OF_YEAR) == nowCal.get(java.util.Calendar.DAY_OF_YEAR) - 1 &&
-                cal.get(java.util.Calendar.YEAR) == nowCal.get(java.util.Calendar.YEAR) -> {
+            cal.get(java.util.Calendar.YEAR) == nowCal.get(java.util.Calendar.YEAR) &&
+                cal.get(java.util.Calendar.DAY_OF_YEAR) == nowCal.get(java.util.Calendar.DAY_OF_YEAR) - 1 -> {
                 "Yesterday"
             }
-            else -> java.text.SimpleDateFormat("MMM d", java.util.Locale.getDefault()).format(java.util.Date(timestamp))
+            else -> SimpleDateFormat("MMM d", Locale.getDefault()).format(Date(timestamp))
         }
     }
 
-    // SidebarAdapter.ConversationListener
-    override fun onConversationClick(conversation: ConversationEntity) {
+    private fun onConversationClick(conversation: ConversationEntity) {
         val bundle = Bundle().apply {
             putString("deviceAddress", conversation.deviceAddress)
             putString("deviceName", conversation.deviceName)
             putString("chatId", conversation.chatId)
         }
-        db.markAsRead(conversation.chatId)
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            db.markAsRead(conversation.chatId)
+        }
         findNavController().navigate(R.id.action_home_to_chat, bundle)
     }
 
-    override fun onPin(conversation: ConversationEntity) {
-        db.togglePin(conversation.chatId)
-        loadSidebarConversations()
-        Toast.makeText(requireContext(), getString(R.string.sidebar_toast_pinned), Toast.LENGTH_SHORT).show()
+    private fun onPin(conversation: ConversationEntity) {
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            db.togglePin(conversation.chatId)
+            val updated = db.getAllConversations()
+            withContext(Dispatchers.Main) {
+                if (isAdded) {
+                    allConversations = updated
+                    renderConversations(updated)
+                    Toast.makeText(requireContext(), getString(R.string.sidebar_toast_pinned), Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
-    override fun onMute(conversation: ConversationEntity) {
-        db.toggleMute(conversation.chatId)
-        loadSidebarConversations()
-        Toast.makeText(requireContext(), getString(R.string.sidebar_toast_muted), Toast.LENGTH_SHORT).show()
+    private fun onMute(conversation: ConversationEntity) {
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            db.toggleMute(conversation.chatId)
+            val updated = db.getAllConversations()
+            withContext(Dispatchers.Main) {
+                if (isAdded) {
+                    allConversations = updated
+                    renderConversations(updated)
+                    Toast.makeText(requireContext(), getString(R.string.sidebar_toast_muted), Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
-    override fun onMarkRead(conversation: ConversationEntity) {
-        db.markAsRead(conversation.chatId)
-        loadSidebarConversations()
+    private fun onMarkRead(conversation: ConversationEntity) {
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            db.markAsRead(conversation.chatId)
+            val updated = db.getAllConversations()
+            withContext(Dispatchers.Main) {
+                if (isAdded) {
+                    allConversations = updated
+                    renderConversations(updated)
+                }
+            }
+        }
     }
 
-    override fun onMarkUnread(conversation: ConversationEntity) {
-        db.markAsUnread(conversation.chatId)
-        loadSidebarConversations()
+    private fun onMarkUnread(conversation: ConversationEntity) {
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            db.markAsUnread(conversation.chatId)
+            val updated = db.getAllConversations()
+            withContext(Dispatchers.Main) {
+                if (isAdded) {
+                    allConversations = updated
+                    renderConversations(updated)
+                }
+            }
+        }
     }
 
-    override fun onUnmute(conversation: ConversationEntity) {
-        db.toggleMute(conversation.chatId)
-        loadSidebarConversations()
-        Toast.makeText(requireContext(), getString(R.string.sidebar_toast_unmuted), Toast.LENGTH_SHORT).show()
+    private fun onUnmute(conversation: ConversationEntity) {
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            db.toggleMute(conversation.chatId)
+            val updated = db.getAllConversations()
+            withContext(Dispatchers.Main) {
+                if (isAdded) {
+                    allConversations = updated
+                    renderConversations(updated)
+                    Toast.makeText(requireContext(), getString(R.string.sidebar_toast_unmuted), Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
-    override fun onDelete(conversation: ConversationEntity) {
+    private fun onDelete(conversation: ConversationEntity) {
         AlertDialog.Builder(requireContext())
             .setTitle(R.string.sidebar_delete_title)
             .setMessage(getString(R.string.sidebar_delete_message, conversation.deviceName))
             .setPositiveButton(R.string.yes) { _, _ ->
-                db.deleteConversation(conversation.chatId)
-                db.deleteMessagesForChat(conversation.chatId)
-                loadSidebarConversations()
-                Toast.makeText(requireContext(), getString(R.string.sidebar_toast_deleted), Toast.LENGTH_SHORT).show()
+                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+                    db.deleteConversation(conversation.chatId)
+                    db.deleteMessagesForChat(conversation.chatId)
+                    val updated = db.getAllConversations()
+                    withContext(Dispatchers.Main) {
+                        if (isAdded) {
+                            allConversations = updated
+                            renderConversations(updated)
+                            Toast.makeText(requireContext(), getString(R.string.sidebar_toast_deleted), Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
             }
             .setNegativeButton(R.string.cancel, null)
             .show()
     }
 
-    override fun onViewProfile(conversation: ConversationEntity) {
+    private fun onViewProfile(conversation: ConversationEntity) {
         Toast.makeText(requireContext(), getString(R.string.sidebar_toast_profile, conversation.deviceName), Toast.LENGTH_SHORT).show()
     }
 }

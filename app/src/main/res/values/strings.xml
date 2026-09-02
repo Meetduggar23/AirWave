@@ -235,6 +235,8 @@
     <string name="sidebar_toast_unmuted">Conversation unmuted</string>
     <string name="sidebar_toast_deleted">Conversation deleted</string>
     <string name="sidebar_toast_profile">Profile: %1$s</string>
+    <string name="settings_data_cleared">Data cleared</string>
+    <string name="settings_all_chats_cleared">All chats cleared</string>
 
     <!-- Sidebar Delete -->
     <string name="sidebar_delete_title">Delete Conversation</string>

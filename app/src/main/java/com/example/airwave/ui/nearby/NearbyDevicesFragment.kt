@@ -35,6 +35,10 @@ class NearbyDevicesFragment : Fragment() {
     private val handler = Handler(Looper.getMainLooper())
     private val SCAN_DURATION = 15000L
 
+    private val scanTimeoutRunnable = Runnable {
+        bluetoothManager.stopDiscovery()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -68,6 +72,7 @@ class NearbyDevicesFragment : Fragment() {
 
         bluetoothManager.onDeviceFound = { device ->
             handler.post {
+                if (!isAdded) return@post
                 if (devices.none { it.address == device.address }) {
                     devices.add(device)
                     adapter.notifyItemInserted(devices.size - 1)
@@ -78,6 +83,7 @@ class NearbyDevicesFragment : Fragment() {
 
         bluetoothManager.onDiscoveryStarted = {
             handler.post {
+                if (!isAdded) return@post
                 progressBar.visibility = View.VISIBLE
                 tvStatus.text = getString(R.string.nearby_scanning)
                 btnScan.text = getString(R.string.nearby_stop)
@@ -88,6 +94,7 @@ class NearbyDevicesFragment : Fragment() {
 
         bluetoothManager.onDiscoveryFinished = {
             handler.post {
+                if (!isAdded) return@post
                 progressBar.visibility = View.GONE
                 btnScan.text = getString(R.string.nearby_scan_again)
                 if (devices.isEmpty()) {
@@ -109,12 +116,11 @@ class NearbyDevicesFragment : Fragment() {
 
     @SuppressLint("MissingPermission")
     private fun startScanning() {
+        handler.removeCallbacks(scanTimeoutRunnable)
         devices.clear()
         adapter.notifyDataSetChanged()
         bluetoothManager.startDiscovery()
-        handler.postDelayed({
-            bluetoothManager.stopDiscovery()
-        }, SCAN_DURATION)
+        handler.postDelayed(scanTimeoutRunnable, SCAN_DURATION)
     }
 
     private fun updateEmptyState() {
@@ -129,7 +135,8 @@ class NearbyDevicesFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        bluetoothManager.stopDiscovery()
+        handler.removeCallbacks(scanTimeoutRunnable)
         handler.removeCallbacksAndMessages(null)
+        bluetoothManager.destroy()
     }
 }
