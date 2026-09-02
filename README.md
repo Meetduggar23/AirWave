@@ -105,5 +105,5 @@ Made with care for nearby communication.
 ---
 
 <p align="center">
-  <strong>Made By Meet Duggar</strong>
+  <strong>Made By Meet & Kushagra</strong>
 </p>
