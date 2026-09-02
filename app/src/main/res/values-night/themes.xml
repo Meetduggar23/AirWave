@@ -1,7 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.AirWave" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/md_dark_primary</item>
+        <item name="colorOnPrimary">@color/md_dark_on_primary</item>
+        <item name="colorPrimaryContainer">@color/md_dark_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/md_dark_on_primary_container</item>
+        <item name="colorSecondary">@color/md_dark_secondary</item>
+        <item name="colorOnSecondary">@color/md_dark_on_secondary</item>
+        <item name="colorSurface">@color/md_dark_surface</item>
+        <item name="colorOnSurface">@color/md_dark_on_surface</item>
+        <item name="colorSurfaceVariant">@color/md_dark_surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/md_dark_on_surface_variant</item>
+        <item name="colorError">@color/md_dark_error</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowBackground">@color/airwave_dark_bg</item>
     </style>
 </resources>

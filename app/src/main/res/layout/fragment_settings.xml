@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/airwave_light_bg">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="@string/settings_title"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationIconTint="@color/airwave_light_text"
+        app:titleTextColor="@color/airwave_light_text"
+        app:background="@color/airwave_light_surface"
+        app:elevation="0dp" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_appearance"
+                android:textSize="14sp"
+                android:textColor="@color/airwave_accent"
+                android:textStyle="bold"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp" />
+
+            <LinearLayout
+                android:id="@+id/layoutTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical"
+                android:background="?attr/selectableItemBackground">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/settings_theme"
+                    android:textSize="16sp"
+                    android:textColor="@color/airwave_light_text" />
+                <TextView
+                    android:id="@+id/tvThemeValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/airwave_light_text_secondary" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutAccent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical"
+                android:background="?attr/selectableItemBackground">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/settings_accent_color"
+                    android:textSize="16sp"
+                    android:textColor="@color/airwave_light_text" />
+                <TextView
+                    android:id="@+id/tvAccentValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/airwave_light_text_secondary" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutContrast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical"
+                android:background="?attr/selectableItemBackground">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/settings_contrast"
+                    android:textSize="16sp"
+                    android:textColor="@color/airwave_light_text" />
+                <TextView
+                    android:id="@+id/tvContrastValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/airwave_light_text_secondary" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutTextSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical"
+                android:background="?attr/selectableItemBackground">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/settings_text_size"
+                    android:textSize="16sp"
+                    android:textColor="@color/airwave_light_text" />
+                <TextView
+                    android:id="@+id/tvTextSizeValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/airwave_light_text_secondary" />
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginStart="16dp" android:layout_marginEnd="16dp" android:background="@drawable/divider" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_language"
+                android:textSize="14sp"
+                android:textColor="@color/airwave_accent"
+                android:textStyle="bold"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp" />
+
+            <LinearLayout
+                android:id="@+id/layoutLanguage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical"
+                android:background="?attr/selectableItemBackground">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/settings_language"
+                    android:textSize="16sp"
+                    android:textColor="@color/airwave_light_text" />
+                <TextView
+                    android:id="@+id/tvLanguageValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/airwave_light_text_secondary" />
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginStart="16dp" android:layout_marginEnd="16dp" android:background="@drawable/divider" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_notifications"
+                android:textSize="14sp"
+                android:textColor="@color/airwave_accent"
+                android:textStyle="bold"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/notifications_enable"
+                    android:textSize="16sp"
+                    android:textColor="@color/airwave_light_text" />
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/switchNotifications"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:thumbTint="@color/airwave_accent"
+                    app:trackTint="@color/airwave_light_text_secondary" />
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginStart="16dp" android:layout_marginEnd="16dp" android:background="@drawable/divider" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_privacy"
+                android:textSize="14sp"
+                android:textColor="@color/airwave_accent"
+                android:textStyle="bold"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/privacy_discoverable"
+                    android:textSize="16sp"
+                    android:textColor="@color/airwave_light_text" />
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/switchDiscoverable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:thumbTint="@color/airwave_accent"
+                    app:trackTint="@color/airwave_light_text_secondary" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutClearChats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:background="?attr/selectableItemBackground">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_clear_chats"
+                    android:textSize="16sp"
+                    android:textColor="@color/status_disconnected" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutClearData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:background="?attr/selectableItemBackground">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/privacy_clear_data"
+                    android:textSize="16sp"
+                    android:textColor="@color/status_disconnected" />
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginStart="16dp" android:layout_marginEnd="16dp" android:background="@drawable/divider" />
+
+            <LinearLayout
+                android:id="@+id/layoutAbout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical"
+                android:background="?attr/selectableItemBackground">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/settings_about"
+                    android:textSize="16sp"
+                    android:textColor="@color/airwave_light_text" />
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_arrow_right" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

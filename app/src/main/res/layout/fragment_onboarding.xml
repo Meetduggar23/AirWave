@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/airwave_light_bg">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:tabIndicatorColor="@color/airwave_accent"
+        app:tabSelectedTextColor="@color/airwave_accent"
+        app:tabTextColor="@color/airwave_light_text_secondary"
+        xmlns:app="http://schemas.android.com/apk/res-auto" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/btnSkip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/onboarding_skip"
+            android:textColor="@color/airwave_light_text_secondary"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:padding="12dp"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnNext"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:text="@string/onboarding_next"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/airwave_accent"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+</LinearLayout>

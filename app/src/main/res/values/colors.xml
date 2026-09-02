@@ -2,4 +2,90 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- ===== AIRWAVE BRAND COLORS ===== -->
+
+    <!-- Dark Theme -->
+    <color name="airwave_dark_bg">#FF082032</color>
+    <color name="airwave_dark_surface">#FF2C394B</color>
+    <color name="airwave_dark_secondary">#FF334756</color>
+    <color name="airwave_accent">#FFFF4C29</color>
+    <color name="airwave_accent_light">#FFFF6F52</color>
+    <color name="airwave_accent_dark">#FFCC3D21</color>
+    <color name="airwave_dark_text">#FFE0E0E0</color>
+    <color name="airwave_dark_text_secondary">#FF9EAAB6</color>
+
+    <!-- Light Theme -->
+    <color name="airwave_light_bg">#FFF5F6F8</color>
+    <color name="airwave_light_surface">#FFFFFFFF</color>
+    <color name="airwave_light_secondary">#FF334756</color>
+    <color name="airwave_light_text">#FF2C394B</color>
+    <color name="airwave_light_text_secondary">#FF6B7B8D</color>
+
+    <!-- Waveform Gradient -->
+    <color name="waveform_start">#FF334756</color>
+    <color name="waveform_end">#FFFF4C29</color>
+
+    <!-- Material 3 Mapping - Dark -->
+    <color name="md_dark_primary">#FFFF4C29</color>
+    <color name="md_dark_on_primary">#FFFFFFFF</color>
+    <color name="md_dark_primary_container">#FF5C2215</color>
+    <color name="md_dark_on_primary_container">#FFFFDBD1</color>
+    <color name="md_dark_secondary">#FFB0BEC5</color>
+    <color name="md_dark_on_secondary">#FF1B2A36</color>
+    <color name="md_dark_surface">#FF082032</color>
+    <color name="md_dark_on_surface">#FFE0E0E0</color>
+    <color name="md_dark_surface_variant">#FF2C394B</color>
+    <color name="md_dark_on_surface_variant">#FF9EAAB6</color>
+    <color name="md_dark_error">#FFFF6B6B</color>
+
+    <!-- Material 3 Mapping - Light -->
+    <color name="md_light_primary">#FFFF4C29</color>
+    <color name="md_light_on_primary">#FFFFFFFF</color>
+    <color name="md_light_primary_container">#FFFFDBD1</color>
+    <color name="md_light_on_primary_container">#FF3D0A00</color>
+    <color name="md_light_secondary">#FF334756</color>
+    <color name="md_light_on_secondary">#FFFFFFFF</color>
+    <color name="md_light_surface">#FFFFFFFF</color>
+    <color name="md_light_on_surface">#FF2C394B</color>
+    <color name="md_light_surface_variant">#FFF0F2F5</color>
+    <color name="md_light_on_surface_variant">#FF6B7B8D</color>
+    <color name="md_light_error">#FFD32F2F</color>
+
+    <!-- Splash -->
+    <color name="splash_dark_bg">#FF082032</color>
+    <color name="splash_light_bg">#FFF5F6F8</color>
+
+    <!-- Message Bubbles -->
+    <color name="message_sent_dark">#FFFF4C29</color>
+    <color name="message_sent_light">#FFFF4C29</color>
+    <color name="message_received_dark">#FF2C394B</color>
+    <color name="message_received_light">#FFF0F2F5</color>
+
+    <!-- Status -->
+    <color name="status_connected">#FF4CAF50</color>
+    <color name="status_disconnected">#FFFF6B6B</color>
+    <color name="status_connecting">#FFFFB74D</color>
+
+    <!-- High Contrast -->
+    <color name="high_contrast_text">#FF000000</color>
+    <color name="high_contrast_bg">#FFFFFFFF</color>
+    <color name="high_contrast_text_dark">#FFFFFFFF</color>
+    <color name="high_contrast_bg_dark">#FF000000</color>
+
+    <!-- Divider -->
+    <color name="divider_dark">#1AFFFFFF</color>
+    <color name="divider_light">#1A2C394B</color>
+
+    <!-- Card -->
+    <color name="card_dark">#FF2C394B</color>
+    <color name="card_dark_elevated">#FF334756</color>
+    <color name="card_light">#FFFFFFFF</color>
+    <color name="card_light_elevated">#FFF8F9FB</color>
+
+    <!-- Input -->
+    <color name="input_bg_dark">#FF1A2A3A</color>
+    <color name="input_bg_light">#FFF0F2F5</color>
+    <color name="input_border_dark">#FF334756</color>
+    <color name="input_border_light">#FFE0E4E8</color>
 </resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="80dp"
+    android:height="80dp"
+    android:viewportWidth="80"
+    android:viewportHeight="80">
+    <!-- Waveform-inspired scanning indicator -->
+    <path
+        android:fillColor="#33FFFFFF"
+        android:pathData="M10,40 Q15,30 20,40 Q25,50 30,40 Q35,30 40,40 Q45,50 50,40 Q55,30 60,40 Q65,50 70,40"
+        android:strokeColor="@color/airwave_accent"
+        android:strokeWidth="2.5" />
+    <path
+        android:fillColor="@color/airwave_accent"
+        android:pathData="M40,40m-6,0a6,6 0,1 1,12 0a6,6 0,1 1,-12 0" />
+</vector>

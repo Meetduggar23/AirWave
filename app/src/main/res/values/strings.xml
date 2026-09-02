@@ -1,3 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">AirWave</string>
+    <string name="tagline">Chat Nearby. Stay Connected.</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_title_1">Nearby Chatting</string>
+    <string name="onboarding_desc_1">AirWave lets you chat with people nearby without needing an internet connection.</string>
+    <string name="onboarding_title_2">No Internet Needed</string>
+    <string name="onboarding_desc_2">All messages are sent directly between devices using Bluetooth. No servers, no data plans required.</string>
+    <string name="onboarding_title_3">Discover &amp; Connect</string>
+    <string name="onboarding_desc_3">Find nearby AirWave users, connect with them, and start chatting instantly.</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_get_started">Get Started</string>
+
+    <!-- Auth -->
+    <string name="login_title">Welcome Back</string>
+    <string name="login_subtitle">Continue with your local AirWave profile</string>
+    <string name="login_continue">Continue</string>
+    <string name="login_guest">Continue as Guest</string>
+    <string name="login_no_account">Don\'t have a profile?</string>
+    <string name="login_signup">Create Profile</string>
+
+    <string name="signup_title">Create Profile</string>
+    <string name="signup_subtitle">Set up your local AirWave identity</string>
+    <string name="signup_nickname_hint">Nickname</string>
+    <string name="signup_status_hint">Status (optional)</string>
+    <string name="signup_create">Create Profile</string>
+    <string name="signup_has_account">Already have a profile?</string>
+    <string name="signup_login">Sign In</string>
+    <string name="signup_error_empty">Nickname cannot be empty</string>
+    <string name="signup_error_length">Nickname must be between 2 and 20 characters</string>
+
+    <!-- Home -->
+    <string name="home_find_users">Find Nearby Users</string>
+    <string name="home_chats">Chats</string>
+    <string name="home_profile">Profile</string>
+    <string name="home_settings">Settings</string>
+    <string name="home_bluetooth_status">Bluetooth Status</string>
+    <string name="home_connection_status">Connection Status</string>
+    <string name="home_nearby_count">Nearby Devices</string>
+    <string name="home_recent_chats">Recent Chats</string>
+    <string name="home_no_chats">No conversations yet. Find nearby users to start chatting.</string>
+    <string name="home_greeting">Hello, %1$s</string>
+
+    <!-- Bluetooth Status -->
+    <string name="bluetooth_on">Bluetooth On</string>
+    <string name="bluetooth_off">Bluetooth Off</string>
+    <string name="bluetooth_turn_on">Turn On Bluetooth</string>
+    <string name="bluetooth_unavailable">Bluetooth is not available on this device</string>
+    <string name="bluetooth_connecting">Connecting...</string>
+    <string name="bluetooth_connected">Connected</string>
+    <string name="bluetooth_disconnected">Disconnected</string>
+    <string name="bluetooth_available">Available</string>
+    <string name="bluetooth_not_available">Not Available</string>
+
+    <!-- Nearby Devices -->
+    <string name="nearby_title">Nearby Users</string>
+    <string name="nearby_scanning">Searching for nearby users...</string>
+    <string name="nearby_no_devices">No nearby AirWave users found</string>
+    <string name="nearby_scan_again">Scan Again</string>
+    <string name="nearby_connect">Connect</string>
+    <string name="nearby_connecting">Connecting...</string>
+    <string name="nearby_connected">Connected</string>
+    <string name="nearby_connection_failed">Could not connect. Try again.</string>
+    <string name="nearby_stop">Stop Scanning</string>
+
+    <!-- Chat -->
+    <string name="chat_input_hint">Type a message...</string>
+    <string name="chat_send">Send</string>
+    <string name="chat_voice">Voice input</string>
+    <string name="chat_clear">Clear conversation</string>
+    <string name="chat_delete">Delete conversation</string>
+    <string name="chat_disconnect">Disconnect</string>
+    <string name="chat_view_profile">View profile</string>
+    <string name="chat_info">Chat info</string>
+    <string name="chat_empty">No messages yet. Say hello!</string>
+    <string name="chat_connection_lost">Connection lost</string>
+    <string name="chat_failed_to_send">Failed to send</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Profile</string>
+    <string name="profile_edit">Edit Profile</string>
+    <string name="profile_nickname">Nickname</string>
+    <string name="profile_status">Status</string>
+    <string name="profile_picture">Profile Picture</string>
+    <string name="profile_identity">AirWave Identity</string>
+    <string name="profile_save">Save</string>
+    <string name="profile_change_photo">Change Photo</string>
+    <string name="profile_remove_photo">Remove Photo</string>
+    <string name="profile_available">Available nearby</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_accent_color">Accent Color</string>
+    <string name="settings_contrast">Contrast</string>
+    <string name="settings_text_size">Text Size</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_chat">Chat</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_privacy">Privacy</string>
+    <string name="settings_bluetooth">Bluetooth</string>
+    <string name="settings_accessibility">Accessibility</string>
+    <string name="settings_data">Data</string>
+    <string name="settings_about">About</string>
+
+    <!-- Theme -->
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_system">System Default</string>
+
+    <!-- Accent Colors -->
+    <string name="accent_default">Default AirWave</string>
+    <string name="accent_blue">Blue</string>
+    <string name="accent_purple">Purple</string>
+    <string name="accent_green">Green</string>
+    <string name="accent_orange">Orange</string>
+    <string name="accent_red">Red</string>
+    <string name="accent_teal">Teal</string>
+    <string name="accent_pink">Pink</string>
+
+    <!-- Contrast -->
+    <string name="contrast_normal">Normal Contrast</string>
+    <string name="contrast_high">High Contrast</string>
+
+    <!-- Text Size -->
+    <string name="text_size_small">Small</string>
+    <string name="text_size_default">Default</string>
+    <string name="text_size_large">Large</string>
+    <string name="text_size_extra_large">Extra Large</string>
+
+    <!-- Notifications -->
+    <string name="notifications_enable">Enable Notifications</string>
+    <string name="notifications_messages">Message Notifications</string>
+    <string name="notifications_connections">Connection Notifications</string>
+
+    <!-- Privacy -->
+    <string name="privacy_discoverable">Discoverable to Others</string>
+    <string name="privacy_profile_visible">Profile Visible</string>
+    <string name="privacy_clear_data">Clear All Data</string>
+    <string name="privacy_clear_data_confirm">Are you sure? This will delete all local data.</string>
+
+    <!-- Accessibility -->
+    <string name="accessibility_reduced_motion">Reduce Motion</string>
+
+    <!-- Chat Settings -->
+    <string name="settings_clear_chats">Clear All Chats</string>
+    <string name="settings_clear_chats_confirm">Delete all chat history?</string>
+
+    <!-- About -->
+    <string name="about_title">About AirWave</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_description">AirWave is an offline Bluetooth messaging application designed for nearby device-to-device communication without requiring an internet connection.</string>
+    <string name="about_privacy">Privacy</string>
+    <string name="about_licenses">Open Source Licenses</string>
+    <string name="about_developer">Developer</string>
+
+    <!-- Privacy Policy -->
+    <string name="privacy_title">Privacy Information</string>
+    <string name="privacy_content">Messages are stored locally on your device. No cloud messaging is required. No online account is needed. Bluetooth is used only for nearby device communication. Permissions are only requested when needed.</string>
+
+    <!-- Permissions -->
+    <string name="permission_bluetooth_title">Bluetooth Permission</string>
+    <string name="permission_bluetooth_message">AirWave needs Bluetooth permission to find and connect to nearby users.</string>
+    <string name="permission_location_title">Location Permission</string>
+    <string name="permission_location_message">Location permission is required for Bluetooth device discovery on your Android version.</string>
+    <string name="permission_denied">Permission denied. AirWave needs this permission to work properly.</string>
+
+    <!-- Errors -->
+    <string name="error_bluetooth_unavailable">Bluetooth is not available on this device.</string>
+    <string name="error_bluetooth_disabled">Turn on Bluetooth to discover nearby users.</string>
+    <string name="error_permission_denied">AirWave needs Bluetooth permission to find nearby devices.</string>
+    <string name="error_no_devices">No nearby AirWave users found.</string>
+    <string name="error_connection_failed">Could not connect to this user. Try again.</string>
+    <string name="error_connection_lost">The Bluetooth connection was lost.</string>
+    <string name="error_speech_unavailable">Speech recognition is not available on this device.</string>
+    <string name="error_speech_failed">Speech recognition failed. Try again.</string>
+    <string name="error_no_speech">No speech detected. Try again.</string>
+
+    <!-- Empty States -->
+    <string name="empty_no_devices">No nearby users found. Make sure others have AirWave open and Bluetooth on.</string>
+    <string name="empty_no_chats">No conversations yet. Tap Find Nearby Users to get started.</string>
+    <string name="empty_no_messages">No messages yet. Say hello to start chatting!</string>
+    <string name="empty_no_profile_photo">No profile photo set</string>
+
+    <!-- Loading -->
+    <string name="loading_scanning">Scanning...</string>
+    <string name="loading_connecting">Connecting...</string>
+    <string name="loading_saving">Saving...</string>
+    <string name="loading_recognizing">Listening...</string>
+
+    <!-- Connection -->
+    <string name="connection_request_title">Connection Request</string>
+    <string name="connection_request_message">%1$s wants to connect with you.</string>
+    <string name="connection_accept">Accept</string>
+    <string name="connection_reject">Reject</string>
+    <string name="connection_accepted">Connection accepted</string>
+    <string name="connection_rejected">Connection rejected</string>
+
+    <!-- General -->
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="back">Back</string>
+    <string name="close">Close</string>
+    <string name="retry">Retry</string>
+    <string name="done">Done</string>
+    <string name="search">Search</string>
+    <string name="more_options">More options</string>
 </resources>

@@ -1,9 +1,27 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.AirWave" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/md_light_primary</item>
+        <item name="colorOnPrimary">@color/md_light_on_primary</item>
+        <item name="colorPrimaryContainer">@color/md_light_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/md_light_on_primary_container</item>
+        <item name="colorSecondary">@color/md_light_secondary</item>
+        <item name="colorOnSecondary">@color/md_light_on_secondary</item>
+        <item name="colorSurface">@color/md_light_surface</item>
+        <item name="colorOnSurface">@color/md_light_on_surface</item>
+        <item name="colorSurfaceVariant">@color/md_light_surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/md_light_on_surface_variant</item>
+        <item name="colorError">@color/md_light_error</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="Theme.AirWave" parent="Base.Theme.AirWave" />
+
+    <style name="Theme.AirWave.Splash" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/splash_light_bg</item>
+        <item name="android:statusBarColor">@color/splash_light_bg</item>
+        <item name="android:navigationBarColor">@color/splash_light_bg</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
 </resources>
