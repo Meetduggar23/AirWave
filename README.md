@@ -1,7 +1,6 @@
 <p align="center">
   <img src="appicon.png" alt="AirWave Logo" width="150"/>
 </p>
-
 <h1 align="center">AirWave</h1>
 
 <p align="center">
