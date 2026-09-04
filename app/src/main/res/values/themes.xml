@@ -11,6 +11,7 @@
         <item name="colorSurfaceVariant">@color/md_light_surface_variant</item>
         <item name="colorOnSurfaceVariant">@color/md_light_on_surface_variant</item>
         <item name="colorError">@color/md_light_error</item>
+        <item name="android:windowBackground">@color/aw_bg</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
@@ -18,10 +19,10 @@
 
     <style name="Theme.AirWave" parent="Base.Theme.AirWave" />
 
-    <style name="Theme.AirWave.Splash" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:windowBackground">@color/splash_light_bg</item>
-        <item name="android:statusBarColor">@color/splash_light_bg</item>
-        <item name="android:navigationBarColor">@color/splash_light_bg</item>
+    <style name="Theme.AirWave.Splash" parent="Base.Theme.AirWave">
+        <item name="android:windowBackground">@color/aw_bg</item>
+        <item name="android:statusBarColor">@color/aw_bg</item>
+        <item name="android:navigationBarColor">@color/aw_bg</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
 </resources>

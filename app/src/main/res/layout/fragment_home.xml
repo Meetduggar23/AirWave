@@ -3,21 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/airwave_light_bg">
+    android:background="@color/aw_bg">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/airwave_light_surface"
+        android:background="@color/aw_surface"
         app:elevation="0dp">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/airwave_light_surface"
+            android:background="@color/aw_surface"
             app:title="@string/app_name"
-            app:titleTextColor="@color/airwave_light_text" />
+            app:titleTextColor="@color/aw_text_primary" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="26sp"
                 android:textStyle="bold"
-                android:textColor="@color/airwave_light_text"
+                android:textColor="@color/aw_text_primary"
                 android:layout_marginBottom="24dp" />
 
             <!-- Status Cards -->
@@ -55,8 +55,8 @@
                     app:cardCornerRadius="16dp"
                     app:cardElevation="0dp"
                     app:strokeWidth="1dp"
-                    app:strokeColor="@color/divider_light"
-                    app:cardBackgroundColor="@color/airwave_light_surface">
+                    app:strokeColor="@color/aw_divider"
+                    app:cardBackgroundColor="@color/aw_surface">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -68,14 +68,15 @@
                             android:id="@+id/bluetoothStatusDot"
                             android:layout_width="10dp"
                             android:layout_height="10dp"
-                            android:layout_marginBottom="10dp" />
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/status_dot_disconnected" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/home_bluetooth_status"
                             android:textSize="12sp"
-                            android:textColor="@color/airwave_light_text_secondary"
+                            android:textColor="@color/aw_text_secondary"
                             android:layout_marginBottom="4dp" />
 
                         <TextView
@@ -84,7 +85,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="16sp"
                             android:textStyle="bold"
-                            android:textColor="@color/airwave_light_text" />
+                            android:textColor="@color/aw_text_primary" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
@@ -96,8 +97,8 @@
                     app:cardCornerRadius="16dp"
                     app:cardElevation="0dp"
                     app:strokeWidth="1dp"
-                    app:strokeColor="@color/divider_light"
-                    app:cardBackgroundColor="@color/airwave_light_surface">
+                    app:strokeColor="@color/aw_divider"
+                    app:cardBackgroundColor="@color/aw_surface">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -117,20 +118,68 @@
                             android:layout_height="wrap_content"
                             android:text="@string/home_connection_status"
                             android:textSize="12sp"
-                            android:textColor="@color/airwave_light_text_secondary"
+                            android:textColor="@color/aw_text_secondary"
                             android:layout_marginBottom="4dp" />
 
                         <TextView
                             android:id="@+id/tvConnectionStatus"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/bluetooth_disconnected"
+                            android:text="@string/home_not_connected"
                             android:textSize="16sp"
                             android:textStyle="bold"
-                            android:textColor="@color/airwave_light_text" />
+                            android:textColor="@color/aw_text_primary" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
+
+            <!-- Active session card (visible only while connected) -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardActiveChat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/airwave_accent"
+                app:cardBackgroundColor="@color/aw_surface"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:contentDescription="@string/home_active_chat"
+                        android:src="@drawable/ic_chat" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:id="@+id/tvActiveChat"
+                        android:text="@string/home_active_chat"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/aw_text_primary" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_arrow_right" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- Find Users Button -->
             <com.google.android.material.button.MaterialButton
@@ -147,26 +196,17 @@
                 app:iconGravity="textStart"
                 app:cornerRadius="16dp" />
 
-            <!-- Nav Cards -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/home_recent_chats"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/airwave_light_text"
-                android:layout_marginBottom="12dp" />
-
+            <!-- Identity -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btnChats"
+                android:id="@+id/btnIdentity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
                 app:strokeWidth="1dp"
-                app:strokeColor="@color/divider_light"
-                app:cardBackgroundColor="@color/airwave_light_surface"
+                app:strokeColor="@color/aw_divider"
+                app:cardBackgroundColor="@color/aw_surface"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground">
@@ -178,64 +218,38 @@
                     android:padding="16dp"
                     android:gravity="center_vertical">
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginEnd="16dp"
-                        android:contentDescription="@string/home_chats"
-                        android:src="@drawable/ic_chat" />
-
                     <TextView
+                        android:id="@+id/ivIdentityInitial"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:layout_marginEnd="14dp"
+                        android:gravity="center"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:background="@drawable/bg_avatar_circle" />
+
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/home_chats"
-                        android:textSize="16sp"
-                        android:textColor="@color/airwave_light_text" />
+                        android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:contentDescription="@null"
-                        android:src="@drawable/ic_arrow_right" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                        <TextView
+                            android:id="@+id/tvIdentityName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/aw_text_primary" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btnProfile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="@color/divider_light"
-                app:cardBackgroundColor="@color/airwave_light_surface"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginEnd="16dp"
-                        android:contentDescription="@string/home_profile"
-                        android:src="@drawable/ic_person" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/home_profile"
-                        android:textSize="16sp"
-                        android:textColor="@color/airwave_light_text" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_identity_hint"
+                            android:textSize="13sp"
+                            android:textColor="@color/aw_text_secondary" />
+                    </LinearLayout>
 
                     <ImageView
                         android:layout_width="20dp"
@@ -253,8 +267,8 @@
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
                 app:strokeWidth="1dp"
-                app:strokeColor="@color/divider_light"
-                app:cardBackgroundColor="@color/airwave_light_surface"
+                app:strokeColor="@color/aw_divider"
+                app:cardBackgroundColor="@color/aw_surface"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground">
@@ -279,7 +293,7 @@
                         android:layout_weight="1"
                         android:text="@string/home_settings"
                         android:textSize="16sp"
-                        android:textColor="@color/airwave_light_text" />
+                        android:textColor="@color/aw_text_primary" />
 
                     <ImageView
                         android:layout_width="20dp"
@@ -288,7 +302,6 @@
                         android:src="@drawable/ic_arrow_right" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

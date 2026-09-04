@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/airwave_light_bg">
+    android:background="@color/aw_bg">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -12,8 +12,8 @@
         android:layout_height="?attr/actionBarSize"
         app:title="@string/nearby_title"
         app:navigationIcon="@drawable/ic_arrow_back"
-        app:titleTextColor="@color/airwave_light_text"
-        app:background="@color/airwave_light_surface"
+        app:titleTextColor="@color/aw_text_primary"
+        app:background="@color/aw_surface"
         app:elevation="0dp" />
 
     <ProgressBar
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:textSize="14sp"
-        android:textColor="@color/airwave_light_text_secondary" />
+        android:textColor="@color/aw_text_secondary" />
 
     <LinearLayout
         android:id="@+id/layoutEmpty"
@@ -54,9 +54,9 @@
             android:id="@+id/tvEmpty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/empty_no_devices"
+            android:text="@string/nearby_no_devices"
             android:textSize="16sp"
-            android:textColor="@color/airwave_light_text_secondary"
+            android:textColor="@color/aw_text_secondary"
             android:gravity="center"
             android:lineSpacingExtra="4dp" />
     </LinearLayout>

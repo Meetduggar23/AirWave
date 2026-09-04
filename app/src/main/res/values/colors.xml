@@ -26,6 +26,9 @@
     <color name="waveform_start">#FF334756</color>
     <color name="waveform_end">#FFFF4C29</color>
 
+    <!-- Avatar circles -->
+    <color name="airwave_avatar_bg">#FF334756</color>
+
     <!-- Material 3 Mapping - Dark -->
     <color name="md_dark_primary">#FFFF4C29</color>
     <color name="md_dark_on_primary">#FFFFFFFF</color>
@@ -88,4 +91,20 @@
     <color name="input_bg_light">#FFF0F2F5</color>
     <color name="input_border_dark">#FF334756</color>
     <color name="input_border_light">#FFE0E4E8</color>
+
+    <!--
+        Theme-aware role colors (DayNight).
+        Light values live here; the dark equivalents are overridden in
+        values-night/colors.xml. Layouts and drawables should reference these
+        roles so the app renders correctly in both light and dark mode.
+    -->
+    <color name="aw_bg">#FFF5F6F8</color>
+    <color name="aw_surface">#FFFFFFFF</color>
+    <color name="aw_text_primary">#FF2C394B</color>
+    <color name="aw_text_secondary">#FF6B7B8D</color>
+    <color name="aw_divider">#1A2C394B</color>
+    <color name="aw_input_bg">#FFF0F2F5</color>
+    <color name="aw_input_border">#FFE0E4E8</color>
+    <color name="aw_bubble_received">#FFF0F2F5</color>
+    <color name="aw_bubble_sent">@color/airwave_accent</color>
 </resources>

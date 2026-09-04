@@ -6,19 +6,21 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.airwave.R
-import com.example.airwave.data.local.MessageEntity
-import com.example.airwave.util.PreferencesHelper
+import com.example.airwave.model.ChatMessage
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class MessageListAdapter(
-    private val messages: List<MessageEntity>
+    messages: List<ChatMessage> = emptyList()
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         const val VIEW_TYPE_SENT = 1
         const val VIEW_TYPE_RECEIVED = 2
     }
+
+    private val items: MutableList<ChatMessage> = ArrayList(messages)
 
     class SentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvMessage: TextView = view.findViewById(R.id.tvMessage)
@@ -32,7 +34,7 @@ class MessageListAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (messages[position].isSent) VIEW_TYPE_SENT else VIEW_TYPE_RECEIVED
+        return if (items[position].isSent) VIEW_TYPE_SENT else VIEW_TYPE_RECEIVED
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -51,7 +53,7 @@ class MessageListAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val message = messages[position]
+        val message = items[position]
         val time = formatTime(message.timestamp)
 
         when (holder) {
@@ -67,7 +69,14 @@ class MessageListAdapter(
         }
     }
 
-    override fun getItemCount() = messages.size
+    override fun getItemCount() = items.size
+
+    /** Replaces the backing list and refreshes the list. Called whenever the message list changes. */
+    fun updateData(newMessages: List<ChatMessage>) {
+        items.clear()
+        items.addAll(newMessages)
+        notifyDataSetChanged()
+    }
 
     private fun formatTime(timestamp: Long): String {
         val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())

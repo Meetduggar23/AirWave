@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Dark-mode overrides for the theme-aware role colors.
+    These match the *_dark literals defined in values/colors.xml so the same
+    role names resolve differently in light and dark mode.
+-->
+<resources>
+    <color name="aw_bg">#FF082032</color>
+    <color name="aw_surface">#FF2C394B</color>
+    <color name="aw_text_primary">#FFE0E0E0</color>
+    <color name="aw_text_secondary">#FF9EAAB6</color>
+    <color name="aw_divider">#1AFFFFFF</color>
+    <color name="aw_input_bg">#FF1A2A3A</color>
+    <color name="aw_input_border">#FF334756</color>
+    <color name="aw_bubble_received">#FF2C394B</color>
+    <color name="aw_bubble_sent">@color/airwave_accent</color>
+</resources>

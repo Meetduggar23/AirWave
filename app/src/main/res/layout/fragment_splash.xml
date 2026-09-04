@@ -4,7 +4,7 @@
     android:id="@+id/splash_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/splash_dark_bg">
+    android:background="@color/aw_bg">
 
     <ImageView
         android:id="@+id/ivLogo"

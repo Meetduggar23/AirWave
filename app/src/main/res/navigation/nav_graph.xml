@@ -11,13 +11,8 @@
         android:label="Splash"
         tools:layout="@layout/fragment_splash">
         <action
-            android:id="@+id/action_splash_to_onboarding"
-            app:destination="@id/onboardingFragment"
-            app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_splash_to_login"
-            app:destination="@id/loginFragment"
+            android:id="@+id/action_splash_to_welcome"
+            app:destination="@id/welcomeFragment"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
         <action
@@ -28,41 +23,18 @@
     </fragment>
 
     <fragment
-        android:id="@+id/onboardingFragment"
-        android:name="com.example.airwave.ui.onboarding.OnboardingFragment"
-        android:label="Onboarding"
-        tools:layout="@layout/fragment_onboarding">
+        android:id="@+id/welcomeFragment"
+        android:name="com.example.airwave.ui.welcome.WelcomeFragment"
+        android:label="Welcome"
+        tools:layout="@layout/fragment_welcome">
+        <argument
+            android:name="editMode"
+            app:argType="boolean"
+            android:defaultValue="false" />
         <action
-            android:id="@+id/action_onboarding_to_login"
-            app:destination="@id/loginFragment"
-            app:popUpTo="@id/onboardingFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.airwave.ui.auth.LoginFragment"
-        android:label="Login"
-        tools:layout="@layout/fragment_login">
-        <action
-            android:id="@+id/action_login_to_home"
+            android:id="@+id/action_welcome_to_home"
             app:destination="@id/homeFragment"
-            app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_login_to_signup"
-            app:destination="@id/signupFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/signupFragment"
-        android:name="com.example.airwave.ui.auth.SignupFragment"
-        android:label="Sign Up"
-        tools:layout="@layout/fragment_signup">
-        <action
-            android:id="@+id/action_signup_to_home"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/loginFragment"
+            app:popUpTo="@id/welcomeFragment"
             app:popUpToInclusive="true" />
     </fragment>
 
@@ -83,12 +55,6 @@
         <action
             android:id="@+id/action_home_to_settings"
             app:destination="@id/settingsFragment" />
-        <action
-            android:id="@+id/action_home_to_chat_history"
-            app:destination="@id/chatHistoryFragment" />
-        <action
-            android:id="@+id/action_home_to_about"
-            app:destination="@id/aboutFragment" />
     </fragment>
 
     <fragment
@@ -115,28 +81,22 @@
             app:argType="string"
             app:nullable="true"
             android:defaultValue="@null" />
-        <argument
-            android:name="chatId"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null" />
     </fragment>
 
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.airwave.ui.profile.ProfileFragment"
-        android:label="Profile"
+        android:label="Your AirWave Identity"
         tools:layout="@layout/fragment_profile">
         <action
-            android:id="@+id/action_profile_to_edit"
-            app:destination="@id/editProfileFragment" />
+            android:id="@+id/action_profile_to_welcome"
+            app:destination="@id/welcomeFragment">
+            <argument
+                android:name="editMode"
+                app:argType="boolean"
+                android:value="true" />
+        </action>
     </fragment>
-
-    <fragment
-        android:id="@+id/editProfileFragment"
-        android:name="com.example.airwave.ui.profile.EditProfileFragment"
-        android:label="Edit Profile"
-        tools:layout="@layout/fragment_edit_profile" />
 
     <fragment
         android:id="@+id/settingsFragment"
@@ -153,14 +113,4 @@
         android:name="com.example.airwave.ui.about.AboutFragment"
         android:label="About"
         tools:layout="@layout/fragment_about" />
-
-    <fragment
-        android:id="@+id/chatHistoryFragment"
-        android:name="com.example.airwave.ui.chat.ChatHistoryFragment"
-        android:label="Chat History"
-        tools:layout="@layout/fragment_chat_history">
-        <action
-            android:id="@+id/action_history_to_chat"
-            app:destination="@id/chatFragment" />
-    </fragment>
 </navigation>

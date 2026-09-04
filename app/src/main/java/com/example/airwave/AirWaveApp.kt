@@ -4,6 +4,7 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.airwave.util.PreferencesHelper
 
 class AirWaveApp : Application() {
@@ -11,7 +12,17 @@ class AirWaveApp : Application() {
     override fun onCreate() {
         super.onCreate()
         PreferencesHelper.init(this)
+        applyStoredTheme()
         createNotificationChannels()
+    }
+
+    private fun applyStoredTheme() {
+        // 0 = Light, 1 = Dark, 2 = System default
+        when (PreferencesHelper.themeMode) {
+            0 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            1 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        }
     }
 
     private fun createNotificationChannels() {

@@ -1,62 +1,57 @@
 package com.example.airwave.ui.home
 
+import android.Manifest
+import android.bluetooth.BluetoothAdapter
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.example.airwave.R
+import com.example.airwave.bluetooth.BluetoothManager
+import com.example.airwave.util.PreferencesHelper
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
-import com.google.android.material.divider.MaterialDivider
-import com.example.airwave.R
-import com.example.airwave.data.local.ConversationEntity
-import com.example.airwave.data.local.DatabaseHelper
-import com.example.airwave.util.PreferencesHelper
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class HomeFragment : Fragment() {
 
     private lateinit var tvGreeting: TextView
     private lateinit var tvBluetoothStatus: TextView
     private lateinit var tvConnectionStatus: TextView
+    private lateinit var tvActiveChat: TextView
+    private lateinit var tvIdentityName: TextView
+    private lateinit var ivIdentityInitial: TextView
     private lateinit var btnFindUsers: MaterialButton
-    private lateinit var btnChatsHome: MaterialCardView
-    private lateinit var btnProfileHome: MaterialCardView
-    private lateinit var btnSettingsHome: MaterialCardView
+    private lateinit var btnIdentity: MaterialCardView
+    private lateinit var btnSettings: MaterialCardView
+    private lateinit var cardActiveChat: MaterialCardView
     private lateinit var bluetoothStatusDot: View
     private lateinit var connectionStatusDot: View
-    private lateinit var toolbar: com.google.android.material.appbar.MaterialToolbar
 
-    // Sidebar (lives in activity_main.xml, must use requireActivity().findViewById)
-    private lateinit var drawerLayout: DrawerLayout
-    private lateinit var sidebarContent: LinearLayout
-    private lateinit var etSearch: EditText
-    private lateinit var btnClearSearch: ImageButton
-    private lateinit var btnCloseSidebar: ImageButton
-    private lateinit var tvSidebarNickname: TextView
-    private lateinit var tvSidebarProfileType: TextView
-    private lateinit var db: DatabaseHelper
-    private var allConversations: List<ConversationEntity> = emptyList()
-    private var isSearchActive = false
+    private val bluetoothManager: BluetoothManager
+        get() = BluetoothManager.getInstance(requireContext())
+
+    private var receiverRegistered = false
+
+    private val connectionObserver = Observer<BluetoothManager.ConnectionState?> {
+        updateConnectionUi()
+    }
+
+    private val peerObserver = Observer<String?> {
+        updateConnectionUi()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,446 +63,249 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        db = DatabaseHelper.getInstance(requireContext())
-
-        // Main content (in fragment_home.xml)
         tvGreeting = view.findViewById(R.id.tvGreeting)
         tvBluetoothStatus = view.findViewById(R.id.tvBluetoothStatus)
         tvConnectionStatus = view.findViewById(R.id.tvConnectionStatus)
+        tvActiveChat = view.findViewById(R.id.tvActiveChat)
+        tvIdentityName = view.findViewById(R.id.tvIdentityName)
+        ivIdentityInitial = view.findViewById(R.id.ivIdentityInitial)
         btnFindUsers = view.findViewById(R.id.btnFindUsers)
-        btnChatsHome = view.findViewById(R.id.btnChats)
-        btnProfileHome = view.findViewById(R.id.btnProfile)
-        btnSettingsHome = view.findViewById(R.id.btnSettings)
+        btnIdentity = view.findViewById(R.id.btnIdentity)
+        btnSettings = view.findViewById(R.id.btnSettings)
+        cardActiveChat = view.findViewById(R.id.cardActiveChat)
         bluetoothStatusDot = view.findViewById(R.id.bluetoothStatusDot)
         connectionStatusDot = view.findViewById(R.id.connectionStatusDot)
-        toolbar = view.findViewById(R.id.toolbar)
 
-        // Sidebar setup (views are in activity_main.xml, not fragment layout)
-        val activity = requireActivity()
-        drawerLayout = activity.findViewById(R.id.drawerLayout)
-        sidebarContent = activity.findViewById(R.id.sidebarContent)
-        etSearch = activity.findViewById(R.id.etSearch)
-        btnClearSearch = activity.findViewById(R.id.btnClearSearch)
-        btnCloseSidebar = activity.findViewById(R.id.btnCloseSidebar)
-        tvSidebarNickname = activity.findViewById(R.id.tvSidebarNickname)
-        tvSidebarProfileType = activity.findViewById(R.id.tvSidebarProfileType)
-
-        // Hamburger menu
-        toolbar.setNavigationIcon(R.drawable.ic_menu)
-        toolbar.setNavigationOnClickListener {
-            drawerLayout.openDrawer(GravityCompat.START)
-        }
-
-        // Close sidebar
-        btnCloseSidebar.setOnClickListener {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        }
-
-        // Sidebar navigation
-        activity.findViewById<LinearLayout>(R.id.btnNewChat).setOnClickListener {
-            drawerLayout.closeDrawer(GravityCompat.START)
-            findNavController().navigate(R.id.action_home_to_nearby)
-        }
-        activity.findViewById<LinearLayout>(R.id.btnNearbyUsers).setOnClickListener {
-            drawerLayout.closeDrawer(GravityCompat.START)
-            findNavController().navigate(R.id.action_home_to_nearby)
-        }
-        activity.findViewById<LinearLayout>(R.id.btnChatsSidebar).setOnClickListener {
-            drawerLayout.closeDrawer(GravityCompat.START)
-            findNavController().navigate(R.id.action_home_to_chat_history)
-        }
-        activity.findViewById<LinearLayout>(R.id.btnFavorites).setOnClickListener {
-            drawerLayout.closeDrawer(GravityCompat.START)
-            showFavorites()
-        }
-        activity.findViewById<LinearLayout>(R.id.btnProfileSidebar).setOnClickListener {
-            drawerLayout.closeDrawer(GravityCompat.START)
+        btnFindUsers.setOnClickListener { onFindUsersClicked() }
+        btnIdentity.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_profile)
         }
-        activity.findViewById<LinearLayout>(R.id.btnSettingsSidebar).setOnClickListener {
-            drawerLayout.closeDrawer(GravityCompat.START)
+        btnSettings.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_settings)
         }
-        activity.findViewById<LinearLayout>(R.id.btnAbout).setOnClickListener {
-            drawerLayout.closeDrawer(GravityCompat.START)
-            findNavController().navigate(R.id.action_home_to_about)
-        }
-
-        // Profile area click
-        activity.findViewById<LinearLayout>(R.id.sidebarProfileArea).setOnClickListener {
-            drawerLayout.closeDrawer(GravityCompat.START)
-            findNavController().navigate(R.id.action_home_to_profile)
-        }
-
-        // Search
-        etSearch.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
-                val query = s?.toString()?.trim() ?: ""
-                btnClearSearch.visibility = if (query.isNotEmpty()) View.VISIBLE else View.GONE
-                if (query.isNotEmpty()) {
-                    searchConversations(query)
-                } else {
-                    isSearchActive = false
-                    loadSidebarConversations()
-                }
+        cardActiveChat.setOnClickListener {
+            val peer = bluetoothManager.peerName.value
+            val bundle = Bundle().apply {
+                if (!peer.isNullOrBlank()) putString("deviceName", peer)
             }
-        })
-
-        btnClearSearch.setOnClickListener {
-            etSearch.setText("")
-            isSearchActive = false
-            loadSidebarConversations()
+            findNavController().navigate(R.id.action_home_to_chat, bundle)
         }
-
-        // Main content clicks
-        btnFindUsers.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_nearby)
-        }
-        btnChatsHome.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_chat_history)
-        }
-        btnProfileHome.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_profile)
-        }
-        btnSettingsHome.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_settings)
-        }
-
-        updateUI()
     }
 
     override fun onResume() {
         super.onResume()
-        updateUI()
-        loadSidebarConversations()
+        registerBluetoothStateReceiver()
+        updateGreeting()
+        updateBluetoothStatus()
+
+        // Keep this device reachable and visible for the whole session.
+        bluetoothManager.ensureAirWaveDeviceName()
+        bluetoothManager.startListening()
+        requestDiscoverabilityOnce()
+
+        bluetoothManager.connectionState.observe(viewLifecycleOwner, connectionObserver)
+        bluetoothManager.peerName.observe(viewLifecycleOwner, peerObserver)
+        updateConnectionUi()
     }
 
-    private fun updateUI() {
-        val nickname = PreferencesHelper.nickname
+    override fun onPause() {
+        super.onPause()
+        unregisterBluetoothStateReceiver()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        unregisterBluetoothStateReceiver()
+    }
+
+    private fun updateGreeting() {
+        val nickname = PreferencesHelper.nickname.ifBlank { "there" }
         tvGreeting.text = getString(R.string.home_greeting, nickname)
-        tvSidebarNickname.text = nickname
-        tvSidebarProfileType.text = getString(R.string.sidebar_profile_type_user)
-        updateBluetoothStatus()
+        tvIdentityName.text = nickname
+        ivIdentityInitial.text = nickname.trim().firstOrNull()?.uppercaseChar()?.toString() ?: "?"
+    }
+
+    private fun updateConnectionUi() {
+        val state = bluetoothManager.connectionState.value
+        val peer = bluetoothManager.peerName.value
+        when (state) {
+            BluetoothManager.ConnectionState.CONNECTED -> {
+                tvConnectionStatus.text = peer ?: getString(R.string.bluetooth_connected)
+                connectionStatusDot.setBackgroundResource(R.drawable.status_dot_connected)
+                cardActiveChat.visibility = View.VISIBLE
+                tvActiveChat.text = getString(R.string.home_active_chat_with, peer ?: "")
+            }
+            BluetoothManager.ConnectionState.CONNECTING -> {
+                tvConnectionStatus.text = getString(R.string.bluetooth_connecting)
+                connectionStatusDot.setBackgroundResource(R.drawable.status_dot_disconnected)
+                cardActiveChat.visibility = View.GONE
+            }
+            else -> {
+                tvConnectionStatus.text = getString(R.string.home_not_connected)
+                connectionStatusDot.setBackgroundResource(R.drawable.status_dot_disconnected)
+                cardActiveChat.visibility = View.GONE
+            }
+        }
     }
 
     private fun updateBluetoothStatus() {
-        val btManager = requireContext().getSystemService(android.content.Context.BLUETOOTH_SERVICE) as? android.bluetooth.BluetoothManager
-        val btAdapter = btManager?.adapter
-        val isEnabled = btAdapter?.isEnabled == true
-
-        if (isEnabled) {
+        val adapter = btAdapter()
+        val enabled = adapter?.isEnabled == true
+        if (enabled) {
             tvBluetoothStatus.text = getString(R.string.bluetooth_on)
             bluetoothStatusDot.setBackgroundResource(R.drawable.status_dot_connected)
         } else {
             tvBluetoothStatus.text = getString(R.string.bluetooth_off)
             bluetoothStatusDot.setBackgroundResource(R.drawable.status_dot_disconnected)
         }
-
-        btnFindUsers.isEnabled = isEnabled
     }
 
-    private fun loadSidebarConversations() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            val conversations = withContext(Dispatchers.IO) {
-                isSearchActive = false
-                db.getAllConversations()
+    private fun btAdapter(): BluetoothAdapter? {
+        val btManager = requireContext()
+            .getSystemService(Context.BLUETOOTH_SERVICE) as? android.bluetooth.BluetoothManager
+        return btManager?.adapter
+    }
+
+    private fun registerBluetoothStateReceiver() {
+        if (receiverRegistered) return
+        val filter = IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED)
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                requireContext().registerReceiver(bluetoothStateReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
+            } else {
+                requireContext().registerReceiver(bluetoothStateReceiver, filter)
             }
-            if (isAdded) {
-                allConversations = conversations
-                renderConversations(conversations)
+            receiverRegistered = true
+        } catch (e: Exception) {
+            // Ignore registration failures
+        }
+    }
+
+    private fun unregisterBluetoothStateReceiver() {
+        if (!receiverRegistered) return
+        try {
+            requireContext().unregisterReceiver(bluetoothStateReceiver)
+        } catch (e: Exception) {
+            // Ignore
+        }
+        receiverRegistered = false
+    }
+
+    private val bluetoothStateReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if (intent.action == BluetoothAdapter.ACTION_STATE_CHANGED) {
+                val state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR)
+                if (state == BluetoothAdapter.STATE_ON) {
+                    bluetoothManager.startListening()
+                    bluetoothManager.ensureAirWaveDeviceName()
+                    requestDiscoverabilityOnce()
+                }
+                updateBluetoothStatus()
             }
         }
     }
 
-    private fun searchConversations(query: String) {
-        viewLifecycleOwner.lifecycleScope.launch {
-            val results = withContext(Dispatchers.IO) {
-                isSearchActive = true
-                db.searchConversations(query)
-            }
-            if (isAdded) renderConversations(results)
-        }
-    }
-
-    private fun showFavorites() {
-        isSearchActive = true
-        val favorites = allConversations.filter { it.isFavorite }
-        if (favorites.isEmpty()) {
-            sidebarContent.removeAllViews()
-            val emptyText = TextView(requireContext()).apply {
-                text = getString(R.string.sidebar_no_favorites)
-                textSize = 14f
-                setTextColor(resources.getColor(R.color.airwave_light_text_secondary, null))
-                gravity = android.view.Gravity.CENTER
-                setPadding(16, 48, 16, 48)
-            }
-            sidebarContent.addView(emptyText)
-        } else {
-            renderConversations(favorites)
-        }
-    }
-
-    private fun renderConversations(conversations: List<ConversationEntity>) {
-        sidebarContent.removeAllViews()
-
-        if (conversations.isEmpty()) {
-            val emptyText = TextView(requireContext()).apply {
-                text = if (isSearchActive) getString(R.string.sidebar_no_results) else getString(R.string.sidebar_no_conversations)
-                textSize = 14f
-                setTextColor(resources.getColor(R.color.airwave_light_text_secondary, null))
-                gravity = android.view.Gravity.CENTER
-                setPadding(16, 48, 16, 48)
-            }
-            sidebarContent.addView(emptyText)
+    private fun onFindUsersClicked() {
+        if (!bluetoothManager.isBluetoothAvailable) {
+            Toast.makeText(requireContext(), R.string.bluetooth_unavailable, Toast.LENGTH_SHORT).show()
             return
         }
-
-        val pinned = conversations.filter { it.isPinned }
-        val recent = conversations.filter { !it.isPinned }
-
-        if (pinned.isNotEmpty()) {
-            val pinnedLabel = TextView(requireContext()).apply {
-                text = getString(R.string.sidebar_pinned)
-                textSize = 12f
-                setTextColor(resources.getColor(R.color.airwave_light_text_secondary, null))
-                setPadding(16, 12, 16, 4)
-            }
-            sidebarContent.addView(pinnedLabel)
-
-            pinned.forEach { conv ->
-                sidebarContent.addView(createConversationItem(conv))
-            }
+        if (!bluetoothManager.isBluetoothEnabled) {
+            enableBluetoothLauncher.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
+            return
         }
-
-        if (recent.isNotEmpty()) {
-            if (pinned.isNotEmpty()) {
-                val divider = MaterialDivider(requireContext()).apply {
-                    setDividerColor(resources.getColor(R.color.divider_light, null))
-                    setPadding(16, 8, 16, 8)
-                }
-                sidebarContent.addView(divider)
-            }
-
-            val recentLabel = TextView(requireContext()).apply {
-                text = getString(R.string.sidebar_recent)
-                textSize = 12f
-                setTextColor(resources.getColor(R.color.airwave_light_text_secondary, null))
-                setPadding(16, 12, 16, 4)
-            }
-            sidebarContent.addView(recentLabel)
-
-            recent.forEach { conv ->
-                sidebarContent.addView(createConversationItem(conv))
-            }
-        }
+        proceedToNearby()
     }
 
-    private fun createConversationItem(conversation: ConversationEntity): View {
-        val itemView = LayoutInflater.from(requireContext())
-            .inflate(R.layout.item_sidebar_conversation, sidebarContent, false)
-
-        val convName: TextView = itemView.findViewById(R.id.tvSidebarConvName)
-        val convLastMsg: TextView = itemView.findViewById(R.id.tvSidebarConvLastMsg)
-        val convTime: TextView = itemView.findViewById(R.id.tvSidebarConvTime)
-        val pinIcon: ImageView = itemView.findViewById(R.id.ivPinIcon)
-        val unreadBadge: TextView = itemView.findViewById(R.id.tvUnreadBadge)
-
-        convName.text = conversation.deviceName
-        convLastMsg.text = conversation.lastMessage
-        convTime.text = formatTime(conversation.lastMessageTime)
-
-        pinIcon.visibility = if (conversation.isPinned) View.VISIBLE else View.GONE
-
-        if (conversation.unreadCount > 0) {
-            unreadBadge.visibility = View.VISIBLE
-            unreadBadge.text = if (conversation.unreadCount > 9) "9+" else conversation.unreadCount.toString()
+    /** Ensures scan permissions are granted, then opens the Nearby Users screen. */
+    private fun proceedToNearby() {
+        if (hasScanPermission()) {
+            findNavController().navigate(R.id.action_home_to_nearby)
         } else {
-            unreadBadge.visibility = View.GONE
+            permissionLauncher.launch(scanPermissions())
         }
-
-        itemView.setOnClickListener {
-            drawerLayout.closeDrawer(GravityCompat.START)
-            onConversationClick(conversation)
-        }
-
-        itemView.setOnLongClickListener { view ->
-            showContextMenu(view, conversation)
-            true
-        }
-
-        return itemView
     }
 
-    private fun showContextMenu(anchor: View, conversation: ConversationEntity) {
-        val popup = PopupMenu(requireContext(), anchor)
-        popup.menuInflater.inflate(R.menu.sidebar_conversation_menu, popup.menu)
+    private fun scanPermissions(): Array<String> {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            // ADVERTISE is needed to make this device discoverable by others.
+            arrayOf(
+                Manifest.permission.BLUETOOTH_SCAN,
+                Manifest.permission.BLUETOOTH_CONNECT,
+                Manifest.permission.BLUETOOTH_ADVERTISE
+            )
+        } else {
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+    }
 
-        popup.menu.findItem(R.id.action_pin)?.title =
-            getString(if (conversation.isPinned) R.string.sidebar_menu_unpin else R.string.sidebar_menu_pin)
-        popup.menu.findItem(R.id.action_mute)?.title =
-            getString(if (conversation.isMuted) R.string.sidebar_menu_unmute else R.string.sidebar_menu_mute)
-        popup.menu.findItem(R.id.action_mark_read)?.title =
-            getString(if (conversation.unreadCount > 0) R.string.sidebar_menu_mark_read else R.string.sidebar_menu_mark_unread)
+    private fun hasScanPermission(): Boolean {
+        val needed = scanPermissions()
+        return needed.all {
+            ContextCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED
+        }
+    }
 
-        popup.setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.action_open -> {
-                    onConversationClick(conversation)
-                    true
-                }
-                R.id.action_pin -> {
-                    onPin(conversation)
-                    true
-                }
-                R.id.action_mark_read -> {
-                    if (conversation.unreadCount > 0) onMarkRead(conversation) else onMarkUnread(conversation)
-                    true
-                }
-                R.id.action_mute -> {
-                    if (conversation.isMuted) onUnmute(conversation) else onMute(conversation)
-                    true
-                }
-                R.id.action_delete -> {
-                    onDelete(conversation)
-                    true
-                }
-                R.id.action_view_profile -> {
-                    onViewProfile(conversation)
-                    true
-                }
-                else -> false
+    private val enableBluetoothLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        updateBluetoothStatus()
+        // The user enabled Bluetooth to find nearby people - take them straight there.
+        if (result.resultCode == android.app.Activity.RESULT_OK && isAdded) {
+            proceedToNearby()
+        }
+    }
+
+    private val permissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) {
+        if (isAdded && hasScanPermission()) {
+            findNavController().navigate(R.id.action_home_to_nearby)
+        }
+    }
+
+    private val discoverableLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        // The user may have declined; the app keeps working either way.
+    }
+
+    private fun requestDiscoverabilityOnce() {
+        if (!PreferencesHelper.discoverable) return
+        if (discoverableRequestedThisRun) return
+        val adapter = btAdapter() ?: return
+        if (!adapter.isEnabled) return
+        // Becoming discoverable needs BLUETOOTH_ADVERTISE on Android 12+.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.BLUETOOTH_ADVERTISE)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            discoverablePermissionLauncher.launch(Manifest.permission.BLUETOOTH_ADVERTISE)
+            return
+        }
+        launchDiscoverableRequest()
+    }
+
+    private val discoverablePermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted && isAdded) launchDiscoverableRequest()
+    }
+
+    private fun launchDiscoverableRequest() {
+        if (discoverableRequestedThisRun) return
+        discoverableRequestedThisRun = true
+        try {
+            val intent = Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE).apply {
+                putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300)
             }
-        }
-        popup.show()
-    }
-
-    private fun formatTime(timestamp: Long): String {
-        if (timestamp == 0L) return ""
-        val now = System.currentTimeMillis()
-        val diff = now - timestamp
-        val cal = java.util.Calendar.getInstance().apply { timeInMillis = timestamp }
-        val nowCal = java.util.Calendar.getInstance()
-
-        return when {
-            diff < 60_000 -> "now"
-            diff < 3600_000 -> "${diff / 60_000}m"
-            cal.get(java.util.Calendar.DAY_OF_YEAR) == nowCal.get(java.util.Calendar.DAY_OF_YEAR) &&
-                cal.get(java.util.Calendar.YEAR) == nowCal.get(java.util.Calendar.YEAR) -> {
-                SimpleDateFormat("h:mm a", Locale.getDefault()).format(Date(timestamp))
-            }
-            cal.get(java.util.Calendar.YEAR) == nowCal.get(java.util.Calendar.YEAR) &&
-                cal.get(java.util.Calendar.DAY_OF_YEAR) == nowCal.get(java.util.Calendar.DAY_OF_YEAR) - 1 -> {
-                "Yesterday"
-            }
-            else -> SimpleDateFormat("MMM d", Locale.getDefault()).format(Date(timestamp))
+            discoverableLauncher.launch(intent)
+        } catch (e: Exception) {
+            // Some devices do not allow the request; ignore.
         }
     }
 
-    private fun onConversationClick(conversation: ConversationEntity) {
-        val bundle = Bundle().apply {
-            putString("deviceAddress", conversation.deviceAddress)
-            putString("deviceName", conversation.deviceName)
-            putString("chatId", conversation.chatId)
-        }
-        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            db.markAsRead(conversation.chatId)
-        }
-        findNavController().navigate(R.id.action_home_to_chat, bundle)
-    }
-
-    private fun onPin(conversation: ConversationEntity) {
-        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            db.togglePin(conversation.chatId)
-            val updated = db.getAllConversations()
-            withContext(Dispatchers.Main) {
-                if (isAdded) {
-                    allConversations = updated
-                    renderConversations(updated)
-                    Toast.makeText(requireContext(), getString(R.string.sidebar_toast_pinned), Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
-
-    private fun onMute(conversation: ConversationEntity) {
-        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            db.toggleMute(conversation.chatId)
-            val updated = db.getAllConversations()
-            withContext(Dispatchers.Main) {
-                if (isAdded) {
-                    allConversations = updated
-                    renderConversations(updated)
-                    Toast.makeText(requireContext(), getString(R.string.sidebar_toast_muted), Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
-
-    private fun onMarkRead(conversation: ConversationEntity) {
-        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            db.markAsRead(conversation.chatId)
-            val updated = db.getAllConversations()
-            withContext(Dispatchers.Main) {
-                if (isAdded) {
-                    allConversations = updated
-                    renderConversations(updated)
-                }
-            }
-        }
-    }
-
-    private fun onMarkUnread(conversation: ConversationEntity) {
-        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            db.markAsUnread(conversation.chatId)
-            val updated = db.getAllConversations()
-            withContext(Dispatchers.Main) {
-                if (isAdded) {
-                    allConversations = updated
-                    renderConversations(updated)
-                }
-            }
-        }
-    }
-
-    private fun onUnmute(conversation: ConversationEntity) {
-        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            db.toggleMute(conversation.chatId)
-            val updated = db.getAllConversations()
-            withContext(Dispatchers.Main) {
-                if (isAdded) {
-                    allConversations = updated
-                    renderConversations(updated)
-                    Toast.makeText(requireContext(), getString(R.string.sidebar_toast_unmuted), Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
-
-    private fun onDelete(conversation: ConversationEntity) {
-        AlertDialog.Builder(requireContext())
-            .setTitle(R.string.sidebar_delete_title)
-            .setMessage(getString(R.string.sidebar_delete_message, conversation.deviceName))
-            .setPositiveButton(R.string.yes) { _, _ ->
-                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-                    db.deleteConversation(conversation.chatId)
-                    db.deleteMessagesForChat(conversation.chatId)
-                    val updated = db.getAllConversations()
-                    withContext(Dispatchers.Main) {
-                        if (isAdded) {
-                            allConversations = updated
-                            renderConversations(updated)
-                            Toast.makeText(requireContext(), getString(R.string.sidebar_toast_deleted), Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-            }
-            .setNegativeButton(R.string.cancel, null)
-            .show()
-    }
-
-    private fun onViewProfile(conversation: ConversationEntity) {
-        Toast.makeText(requireContext(), getString(R.string.sidebar_toast_profile, conversation.deviceName), Toast.LENGTH_SHORT).show()
-    }
+    // Per-fragment flag so a denial can be retried after re-entering the screen
+    // (a companion/static flag would permanently block re-asking in one process).
+    private var discoverableRequestedThisRun = false
 }

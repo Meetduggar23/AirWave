@@ -10,6 +10,9 @@ object LanguageHelper {
         Locale.setDefault(locale)
         val config = Configuration(context.resources.configuration)
         config.setLocale(locale)
+        // Keep the layout direction in sync with the locale so future RTL
+        // languages (Arabic, Hebrew, ...) render correctly.
+        config.setLayoutDirection(locale)
         return context.createConfigurationContext(config)
     }
 

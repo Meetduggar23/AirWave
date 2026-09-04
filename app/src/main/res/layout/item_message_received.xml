@@ -32,13 +32,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            android:textColor="@color/airwave_light_text" />
+            android:textColor="@color/aw_text_primary" />
 
         <TextView
             android:id="@+id/tvTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/airwave_light_text_secondary"
+            android:textColor="@color/aw_text_secondary"
             android:textSize="11sp"
             android:layout_gravity="end"
             android:layout_marginTop="2dp" />
