@@ -1,5 +1,8 @@
 package com.example.airwave.ui.settings
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +10,10 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
@@ -65,6 +70,7 @@ class SettingsFragment : Fragment() {
 
         switchNotifications.setOnCheckedChangeListener { _, isChecked ->
             PreferencesHelper.notificationsEnabled = isChecked
+            requestNotificationPermissionIfNeeded()
         }
 
         switchDiscoverable.setOnCheckedChangeListener { _, isChecked ->
@@ -102,6 +108,40 @@ class SettingsFragment : Fragment() {
             .build()
         val bundle = Bundle().apply { putBoolean("editMode", false) }
         findNavController().navigate(R.id.welcomeFragment, bundle, navOptions)
+    }
+
+    /**
+     * Android 13+ asks for the POST_NOTIFICATIONS runtime permission. Request it
+     * only when the user explicitly enables notifications here (never on app
+     * start), with a short explanation first if the OS asks for a rationale.
+     */
+    private fun requestNotificationPermissionIfNeeded() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
+        if (!PreferencesHelper.notificationsEnabled) return
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS)
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+            AlertDialog.Builder(requireContext())
+                .setTitle(R.string.notifications_enable)
+                .setMessage(R.string.notification_permission_message)
+                .setPositiveButton(R.string.notification_permission_allow) { _, _ ->
+                    notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
+                .setNegativeButton(R.string.cancel, null)
+                .show()
+        } else {
+            notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+    }
+
+    private val notificationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) {
+        // Denied or granted - messaging keeps working either way; the toggle
+        // preference has already been saved.
     }
 
     private fun loadSettings() {

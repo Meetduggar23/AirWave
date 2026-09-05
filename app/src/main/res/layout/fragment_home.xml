@@ -15,9 +15,19 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/aw_surface"
-            app:title="@string/app_name"
-            app:titleTextColor="@color/aw_text_primary" />
+            android:background="@color/aw_surface">
+
+            <ImageView
+                android:id="@+id/ivTopLeftLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="start|center_vertical"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/app_name"
+                android:paddingStart="16dp"
+                android:paddingEnd="12dp"
+                android:src="@drawable/topleftcorner" />
+        </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -61,31 +71,46 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
                         android:padding="16dp">
 
-                        <View
-                            android:id="@+id/bluetoothStatusDot"
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:background="@drawable/status_dot_disconnected" />
-
-                        <TextView
-                            android:layout_width="match_parent"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="@string/home_bluetooth_status"
-                            android:textSize="12sp"
-                            android:textColor="@color/aw_text_secondary"
-                            android:layout_marginBottom="4dp" />
+                            android:layout_weight="1"
+                            android:layout_marginEnd="8dp"
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/tvBluetoothStatus"
-                            android:layout_width="match_parent"
+                            <View
+                                android:id="@+id/bluetoothStatusDot"
+                                android:layout_width="10dp"
+                                android:layout_height="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:background="@drawable/status_dot_disconnected" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/home_bluetooth_status"
+                                android:textSize="12sp"
+                                android:textColor="@color/aw_text_secondary"
+                                android:layout_marginBottom="4dp" />
+
+                            <TextView
+                                android:id="@+id/tvBluetoothStatus"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/aw_text_primary" />
+                        </LinearLayout>
+
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/swBluetooth"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/aw_text_primary" />
+                            android:contentDescription="@string/bluetooth_switch" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 

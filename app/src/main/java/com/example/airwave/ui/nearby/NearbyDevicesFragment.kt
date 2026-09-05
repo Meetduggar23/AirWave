@@ -1,9 +1,6 @@
 package com.example.airwave.ui.nearby
 
 import android.Manifest
-import android.app.Activity
-import android.bluetooth.BluetoothAdapter
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -116,7 +113,8 @@ class NearbyDevicesFragment : Fragment() {
 
     private fun startScanning() {
         if (!bluetoothManager.isBluetoothEnabled) {
-            enableBluetoothLauncher.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
+            // Never start discovery while Bluetooth is off; tell the user why.
+            tvStatus.text = getString(R.string.nearby_scan_requires_bluetooth)
             return
         }
         if (!hasScanPermission()) {
@@ -124,17 +122,6 @@ class NearbyDevicesFragment : Fragment() {
             return
         }
         bluetoothManager.startDiscovery()
-    }
-
-    private val enableBluetoothLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (!isAdded) return@registerForActivityResult
-        if (result.resultCode == Activity.RESULT_OK) {
-            startScanning()
-        } else {
-            tvStatus.text = getString(R.string.bluetooth_off)
-        }
     }
 
     private fun scanPermissions(): Array<String> {

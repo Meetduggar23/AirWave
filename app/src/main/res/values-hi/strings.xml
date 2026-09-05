@@ -25,7 +25,8 @@
 
     <!-- Bluetooth status -->
     <string name="bluetooth_on">तैयार</string>
-    <string name="bluetooth_off">बंद</string>
+    <string name="bluetooth_off">ब्लूटूथ बंद</string>
+    <string name="bluetooth_switch">ब्लूटूथ स्विच</string>
     <string name="bluetooth_turn_on">ब्लूटूथ चालू करें</string>
     <string name="bluetooth_unavailable">इस डिवाइस पर ब्लूटूथ उपलब्ध नहीं है</string>
     <string name="bluetooth_connecting">कनेक्ट हो रहा है…</string>
@@ -38,6 +39,7 @@
     <string name="nearby_title">आस-पास के उपयोगकर्ता</string>
     <string name="nearby_scanning">आस-पास के AirWave उपयोगकर्ताओं की खोज की जा रही है…</string>
     <string name="nearby_scan_again">फिर से स्कैन करें</string>
+    <string name="nearby_scan_requires_bluetooth">आस-पास के AirWave उपयोगकर्ताओं को खोजने के लिए ब्लूटूथ चालू करें।</string>
     <string name="nearby_stop">स्कैनिंग बंद करें</string>
     <string name="nearby_connect">कनेक्ट करें</string>
     <string name="nearby_connect_confirm">%1$s से कनेक्ट करें?</string>
@@ -109,6 +111,8 @@
 
     <!-- Notifications -->
     <string name="notifications_enable">सूचनाएं सक्षम करें</string>
+    <string name="notification_permission_message">AirWave सूचनाएं आपके चैट साथी के नए संदेश दिखाती हैं, भले ही आप चैट स्क्रीन पर न हों। आप इसे किसी भी समय सिस्टम सेटिंग्स में बदल सकते हैं।</string>
+    <string name="notification_permission_allow">अनुमति दें</string>
 
     <!-- Privacy -->
     <string name="privacy_discoverable">दूसरों के लिए खोजने योग्य</string>
@@ -118,8 +122,9 @@
     <string name="privacy_clear_session_confirm">क्या आप वर्तमान सत्र समाप्त करना, अस्थायी चैट डेटा साफ़ करना और अपना नाम भूल जाना चाहते हैं?</string>
 
     <!-- About -->
+    <string name="about_title">के बारे में</string>
     <string name="about_version">संस्करण %1$s</string>
-    <string name="about_footer">नज़दीकी संचार के लिए देखभाल के साथ बनाया गया</string>
+    <string name="about_footer">Made By Duggar PVT Ltd. All rights reserved.</string>
     <string name="about_description">AirWave एक ऑफ़लाइन ब्लूटूथ चैट ऐप है जो आस-पास के डिवाइस-से-डिवाइस संवाद के लिए है। कोई इंटरनेट नहीं, कोई सर्वर नहीं, कोई खाता नहीं - बस ऐप खोलें, नाम दर्ज करें और अपने आस-पास के AirWave उपयोगकर्ताओं से चैट करें। बातचीत अस्थायी होती हैं और सहेजी नहीं जातीं।</string>
 
     <!-- Privacy (About) -->
@@ -141,6 +146,25 @@
     <!-- Loading -->
     <string name="loading_connecting">कनेक्ट हो रहा है…</string>
     <string name="loading_recognizing">सुन रहा है…</string>
+
+    <!-- Verify (QR) -->
+    <string name="verify_title">सत्यापित करें</string>
+    <string name="verify_close">बंद करें</string>
+    <string name="verify_my_qr">मेरा QR</string>
+    <string name="verify_scan">स्कैन करें</string>
+    <string name="verify_qr_content_desc">आपका AirWave सत्यापन QR कोड</string>
+    <string name="verify_identity_label">आपकी AirWave पहचान</string>
+    <string name="verify_qr_caption">इस QR में केवल आपका AirWave उपनाम शामिल है।</string>
+    <string name="verify_scan_hint">कैमरे को AirWave सत्यापन QR कोड की ओर रखें</string>
+    <string name="verify_qr_invalid">यह मान्य AirWave सत्यापन QR कोड नहीं है</string>
+    <string name="verify_verified">सत्यापित</string>
+    <string name="verify_verified_msg">यह AirWave पहचान स्कैन किए गए QR से सत्यापित की गई है।</string>
+    <string name="verify_scan_another">फिर से स्कैन करें</string>
+    <string name="verify_permission_required">QR कोड स्कैन करने के लिए कैमरा अनुमति आवश्यक है</string>
+    <string name="verify_permission_grant">अनुमति दें</string>
+    <string name="verify_permission_denied_msg">कैमरा अनुमति अस्वीकृत की गई। आप My QR टैब से अपना QR साझा कर सकते हैं।</string>
+    <string name="verify_open_settings">सेटिंग्स खोलें</string>
+    <string name="verify_camera_unavailable">इस डिवाइस पर कैमरा उपलब्ध नहीं है</string>
 
     <!-- General -->
     <string name="ok">ठीक है</string>

@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.airwave.R
+import com.google.android.material.appbar.MaterialToolbar
 
 class AboutFragment : Fragment() {
 
@@ -19,6 +21,10 @@ class AboutFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        view.findViewById<MaterialToolbar>(R.id.toolbar).setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
 
         val tvVersion = view.findViewById<TextView>(R.id.tvVersion)
         val versionName = try {

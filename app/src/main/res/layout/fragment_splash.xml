@@ -6,12 +6,15 @@
     android:layout_height="match_parent"
     android:background="@color/aw_bg">
 
+    <!-- The exact appicon2.png artwork, centered, aspect preserved, never
+         masked or placed inside a circle/background shape. -->
     <ImageView
         android:id="@+id/ivLogo"
         android:layout_width="140dp"
         android:layout_height="140dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_airwave_logo"
+        android:scaleType="fitCenter"
+        android:src="@drawable/appicon2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

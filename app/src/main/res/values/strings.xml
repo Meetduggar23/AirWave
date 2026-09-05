@@ -25,7 +25,8 @@
 
     <!-- Bluetooth status -->
     <string name="bluetooth_on">Ready</string>
-    <string name="bluetooth_off">Off</string>
+    <string name="bluetooth_off">Bluetooth Off</string>
+    <string name="bluetooth_switch">Bluetooth switch</string>
     <string name="bluetooth_turn_on">Turn On Bluetooth</string>
     <string name="bluetooth_unavailable">Bluetooth is not available on this device</string>
     <string name="bluetooth_connecting">Connecting…</string>
@@ -38,6 +39,7 @@
     <string name="nearby_title">Nearby Users</string>
     <string name="nearby_scanning">Searching for nearby AirWave users…</string>
     <string name="nearby_scan_again">Scan Again</string>
+    <string name="nearby_scan_requires_bluetooth">Turn on Bluetooth to scan for nearby AirWave users.</string>
     <string name="nearby_stop">Stop Scanning</string>
     <string name="nearby_connect">Connect</string>
     <string name="nearby_connect_confirm">Connect with %1$s?</string>
@@ -109,6 +111,8 @@
 
     <!-- Notifications -->
     <string name="notifications_enable">Enable Notifications</string>
+    <string name="notification_permission_message">AirWave notifications show new messages from your chat partner even when you are not on the chat screen. You can change this anytime in system settings.</string>
+    <string name="notification_permission_allow">Allow</string>
 
     <!-- Privacy -->
     <string name="privacy_discoverable">Discoverable to Others</string>
@@ -118,8 +122,9 @@
     <string name="privacy_clear_session_confirm">End the current session, clear temporary chat data, and forget your name?</string>
 
     <!-- About -->
+    <string name="about_title">About</string>
     <string name="about_version">Version %1$s</string>
-    <string name="about_footer">Made with care for nearby communication</string>
+    <string name="about_footer">Made By Duggar PVT Ltd. All rights reserved.</string>
     <string name="about_description">AirWave is an offline Bluetooth chat app for nearby, device-to-device conversations. No internet, no servers, no account - just open the app, enter a name, and chat with AirWave users around you. Conversations are temporary and are not saved.</string>
 
     <!-- Privacy (About) -->
@@ -141,6 +146,25 @@
     <!-- Loading -->
     <string name="loading_connecting">Connecting…</string>
     <string name="loading_recognizing">Listening…</string>
+
+    <!-- Verify (QR) -->
+    <string name="verify_title">Verify</string>
+    <string name="verify_close">Close</string>
+    <string name="verify_my_qr">My QR</string>
+    <string name="verify_scan">Scan</string>
+    <string name="verify_qr_content_desc">Your AirWave verification QR code</string>
+    <string name="verify_identity_label">Your AirWave identity</string>
+    <string name="verify_qr_caption">Only your AirWave nickname is included in this QR.</string>
+    <string name="verify_scan_hint">Point the camera at an AirWave verification QR code</string>
+    <string name="verify_qr_invalid">This is not a valid AirWave verification QR code</string>
+    <string name="verify_verified">Verified</string>
+    <string name="verify_verified_msg">This AirWave identity was verified from the scanned QR.</string>
+    <string name="verify_scan_another">Scan Another</string>
+    <string name="verify_permission_required">Camera permission is needed to scan QR codes</string>
+    <string name="verify_permission_grant">Grant Permission</string>
+    <string name="verify_permission_denied_msg">Camera permission was denied. You can still share your QR from the My QR tab.</string>
+    <string name="verify_open_settings">Open Settings</string>
+    <string name="verify_camera_unavailable">Camera is not available on this device.</string>
 
     <!-- General -->
     <string name="ok">OK</string>

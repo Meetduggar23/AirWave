@@ -9,6 +9,7 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,14 +22,18 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.airwave.R
 import com.example.airwave.bluetooth.BluetoothManager
+import com.example.airwave.ui.verify.VerifyBottomSheetFragment
 import com.example.airwave.util.PreferencesHelper
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.materialswitch.MaterialSwitch
 
 class HomeFragment : Fragment() {
 
     private lateinit var tvGreeting: TextView
     private lateinit var tvBluetoothStatus: TextView
+    private lateinit var swBluetooth: MaterialSwitch
     private lateinit var tvConnectionStatus: TextView
     private lateinit var tvActiveChat: TextView
     private lateinit var tvIdentityName: TextView
@@ -44,6 +49,9 @@ class HomeFragment : Fragment() {
         get() = BluetoothManager.getInstance(requireContext())
 
     private var receiverRegistered = false
+
+    /** Guards the switch while the UI is being synced to the real adapter state. */
+    private var syncingSwitch = false
 
     private val connectionObserver = Observer<BluetoothManager.ConnectionState?> {
         updateConnectionUi()
@@ -75,6 +83,11 @@ class HomeFragment : Fragment() {
         cardActiveChat = view.findViewById(R.id.cardActiveChat)
         bluetoothStatusDot = view.findViewById(R.id.bluetoothStatusDot)
         connectionStatusDot = view.findViewById(R.id.connectionStatusDot)
+        swBluetooth = view.findViewById(R.id.swBluetooth)
+
+        swBluetooth.setOnCheckedChangeListener { _, checked ->
+            if (!syncingSwitch) handleBluetoothToggle(checked)
+        }
 
         btnFindUsers.setOnClickListener { onFindUsersClicked() }
         btnIdentity.setOnClickListener {
@@ -90,6 +103,24 @@ class HomeFragment : Fragment() {
             }
             findNavController().navigate(R.id.action_home_to_chat, bundle)
         }
+
+        val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbar)
+        toolbar.inflateMenu(R.menu.menu_home)
+        toolbar.menu.findItem(R.id.action_verify)?.icon?.setTint(
+            ContextCompat.getColor(requireContext(), R.color.aw_text_primary)
+        )
+        toolbar.setOnMenuItemClickListener { item ->
+            if (item.itemId == R.id.action_verify) {
+                openVerifySheet()
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    private fun openVerifySheet() {
+        VerifyBottomSheetFragment().show(childFragmentManager, VerifyBottomSheetFragment.TAG)
     }
 
     override fun onResume() {
@@ -150,7 +181,16 @@ class HomeFragment : Fragment() {
 
     private fun updateBluetoothStatus() {
         val adapter = btAdapter()
-        val enabled = adapter?.isEnabled == true
+        if (adapter == null) {
+            tvBluetoothStatus.text = getString(R.string.bluetooth_unavailable)
+            bluetoothStatusDot.setBackgroundResource(R.drawable.status_dot_disconnected)
+            setSwitchSynced(false)
+            swBluetooth.isEnabled = false
+            return
+        }
+        swBluetooth.isEnabled = true
+        val enabled = adapter.isEnabled
+        setSwitchSynced(enabled)
         if (enabled) {
             tvBluetoothStatus.text = getString(R.string.bluetooth_on)
             bluetoothStatusDot.setBackgroundResource(R.drawable.status_dot_connected)
@@ -158,6 +198,81 @@ class HomeFragment : Fragment() {
             tvBluetoothStatus.text = getString(R.string.bluetooth_off)
             bluetoothStatusDot.setBackgroundResource(R.drawable.status_dot_disconnected)
         }
+    }
+
+    /** Updates the switch without triggering the toggle handler. */
+    private fun setSwitchSynced(checked: Boolean) {
+        syncingSwitch = true
+        swBluetooth.isChecked = checked
+        syncingSwitch = false
+    }
+
+    private fun handleBluetoothToggle(checked: Boolean) {
+        if (!isAdded) return
+        val adapter = btAdapter()
+        if (adapter == null) {
+            updateBluetoothStatus()
+            return
+        }
+        if (checked) {
+            if (!adapter.isEnabled) {
+                ensureBluetoothConnectPermissionThenEnable()
+            }
+        } else if (adapter.isEnabled) {
+            // Apps are not allowed to disable Bluetooth directly (deprecated in
+            // API 33); route the user to the official system Bluetooth settings.
+            openBluetoothSettings()
+        }
+    }
+
+    private fun ensureBluetoothConnectPermissionThenEnable() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.BLUETOOTH_CONNECT)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            toggleConnectPermissionLauncher.launch(Manifest.permission.BLUETOOTH_CONNECT)
+            return
+        }
+        launchBluetoothEnableRequest()
+    }
+
+    private val toggleConnectPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (isAdded && granted) {
+            launchBluetoothEnableRequest()
+        } else {
+            // Permission denied - snap the switch back to the real (off) state.
+            updateBluetoothStatus()
+        }
+    }
+
+    /** Uses Android's official enable request (no hidden APIs, no force-enable). */
+    private fun launchBluetoothEnableRequest() {
+        if (!isAdded) return
+        try {
+            toggleEnableBluetoothLauncher.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
+        } catch (e: Exception) {
+            updateBluetoothStatus()
+        }
+    }
+
+    /** Apps cannot disable Bluetooth directly; open the official system settings. */
+    private fun openBluetoothSettings() {
+        if (!isAdded) return
+        try {
+            startActivity(Intent(Settings.ACTION_BLUETOOTH_SETTINGS))
+        } catch (e: Exception) {
+            updateBluetoothStatus()
+        }
+    }
+
+    private val toggleEnableBluetoothLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        // Re-sync with the real adapter state. If the user cancelled the system
+        // enable request, the switch snaps back to OFF.
+        updateBluetoothStatus()
     }
 
     private fun btAdapter(): BluetoothAdapter? {
