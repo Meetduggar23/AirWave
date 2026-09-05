@@ -5,7 +5,7 @@
 <h1 align="center">AirWave</h1>
 
 <p align="center">
-  <strong>Chat Nearby. Stay Connected.</strong>
+  <strong>Connect In Your AirSpace.</strong>
 </p>
 
 <p align="center">

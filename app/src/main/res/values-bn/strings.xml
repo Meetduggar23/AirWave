@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AirWave</string>
+    <string name="tagline">কাছাকাছি চ্যাট করুন। যুক্ত থাকুন।</string>
+
+    <!-- Welcome / name entry -->
+    <string name="welcome_question">আপনাকে কী বলে ডাকব?</string>
+    <string name="welcome_name_hint">আপনার নাম লিখুন</string>
+    <string name="welcome_continue">চালিয়ে যান</string>
+    <string name="welcome_note">কোনো অ্যাকাউন্ট নেই। কোনো ইমেল নেই। কোনো পাসওয়ার্ড নেই।\nআপনার নাম শুধুমাত্র এই সেশনের জন্য ব্যবহৃত হয়।</string>
+    <string name="welcome_error_empty">চালিয়ে যেতে অনুগ্রহ করে নাম লিখুন</string>
+    <string name="welcome_error_length">নাম ২ থেকে ২০ অক্ষরের মধ্যে হতে হবে</string>
+
+    <!-- Home -->
+    <string name="home_greeting">নমস্কার, %1$s</string>
+    <string name="home_bluetooth_status">Bluetooth</string>
+    <string name="home_connection_status">সংযোগ</string>
+    <string name="home_not_connected">সংযুক্ত নয়</string>
+    <string name="home_find_users">কাছাকাছি ব্যবহারকারীদের খুঁজুন</string>
+    <string name="home_identity_hint">আপনার AirWave পরিচয়</string>
+    <string name="home_profile">প্রোফাইল</string>
+    <string name="home_settings">সেটিংস</string>
+    <string name="home_active_chat">সক্রিয় চ্যাট</string>
+    <string name="home_active_chat_with">%1$s-এর সাথে চ্যাট চলছে</string>
+
+    <!-- Bluetooth status -->
+    <string name="bluetooth_on">প্রস্তুত</string>
+    <string name="bluetooth_off">Bluetooth বন্ধ</string>
+    <string name="bluetooth_switch">Bluetooth সুইচ</string>
+    <string name="bluetooth_turn_on">Bluetooth চালু করুন</string>
+    <string name="bluetooth_unavailable">এই ডিভাইসে Bluetooth উপলব্ধ নয়</string>
+    <string name="bluetooth_connecting">সংযোগ হচ্ছে…</string>
+    <string name="bluetooth_connected">সংযুক্ত</string>
+    <string name="bluetooth_disconnected">সংযোগ বিচ্ছিন্ন</string>
+    <string name="bluetooth_available">উপলব্ধ</string>
+    <string name="bluetooth_not_available">উপলব্ধ নয়</string>
+
+    <!-- Nearby users -->
+    <string name="nearby_title">কাছাকাছি ব্যবহারকারীরা</string>
+    <string name="nearby_scanning">কাছাকাছি AirWave ব্যবহারকারীদের খোঁজা হচ্ছে…</string>
+    <string name="nearby_scan_again">আবার স্ক্যান করুন</string>
+    <string name="nearby_scan_requires_bluetooth">কাছাকাছি AirWave ব্যবহারকারীদের খুঁজতে Bluetooth চালু করুন।</string>
+    <string name="nearby_stop">স্ক্যানিং বন্ধ করুন</string>
+    <string name="nearby_connect">সংযোগ করুন</string>
+    <string name="nearby_connect_confirm">%1$s-এর সাথে সংযোগ করবেন?</string>
+    <string name="nearby_connecting">সংযোগ হচ্ছে…</string>
+    <string name="nearby_connected">সংযুক্ত</string>
+    <string name="nearby_connection_failed">সংযোগ করা যায়নি। আবার চেষ্টা করুন।</string>
+    <string name="nearby_no_devices">কাছাকাছি কোনো AirWave ব্যবহারকারী পাওয়া যায়নি।\nনিশ্চিত করুন যে অন্য ডিভাইসে AirWave খোলা আছে, Bluetooth চালু আছে এবং ডিভাইসটি দেখা যাচ্ছে।</string>
+    <string name="nearby_busy">আপনার ইতিমধ্যে একটি সক্রিয় চ্যাট সেশন চলছে। আগে সংযোগ বিচ্ছিন্ন করুন।</string>
+
+    <!-- Chat -->
+    <string name="chat_input_hint">মেসেজ লিখুন…</string>
+    <string name="chat_send">পাঠান</string>
+    <string name="chat_voice">ভয়েস ইনপুট</string>
+    <string name="chat_disconnect">সংযোগ বিচ্ছিন্ন করুন</string>
+    <string name="chat_empty">এখনও কোনো মেসেজ নেই। হ্যালো বলুন!</string>
+    <string name="chat_connection_lost">সংযোগ বিচ্ছিন্ন হয়েছে</string>
+    <string name="chat_request_declined">আপনার চ্যাট অনুরোধ গ্রহণ করা হয়নি।</string>
+    <string name="disconnect_confirm_message">%1$s-এর সাথে সংযোগ বিচ্ছিন্ন করবেন?\nকথোপকথন মুছে যাবে এবং আর ফিরে পাওয়া যাবে না।</string>
+    <string name="connection_lost_title">সংযোগ বিচ্ছিন্ন হয়েছে</string>
+    <string name="connection_lost_back">কাছাকাছি ব্যবহারকারীদের কাছে ফিরে যান</string>
+    <string name="connection_lost_retry">আবার চেষ্টা করুন</string>
+
+    <!-- Profile / identity -->
+    <string name="profile_title">আপনার AirWave পরিচয়</string>
+    <string name="profile_identity">সেশন পরিচয়</string>
+    <string name="profile_identity_info">AirWave-এর জন্য অ্যাকাউন্টের প্রয়োজন নেই। কোনো ইমেল, পাসওয়ার্ড বা অনলাইন প্রোফাইল নেই - শুধু আপনি এই সেশনের জন্য বেছে নেওয়া নামটি। চ্যাটগুলি সাময়িক এবং সংরক্ষিত হয় না।</string>
+    <string name="profile_change_name">নাম পরিবর্তন করুন</string>
+    <string name="profile_save">সংরক্ষণ করুন</string>
+    <string name="profile_name_hint">আপনার নাম</string>
+    <string name="profile_name_saved">নাম আপডেট হয়েছে</string>
+    <string name="profile_available">কাছাকাছি উপলব্ধ</string>
+    <string name="profile_in_chat">চ্যাট সেশনে</string>
+    <string name="profile_picture">প্রোফাইল ছবি</string>
+
+    <!-- Settings -->
+    <string name="settings_title">সেটিংস</string>
+    <string name="settings_appearance">চেহারা</string>
+    <string name="settings_theme">থিম</string>
+    <string name="settings_language">ভাষা</string>
+    <string name="settings_notifications">বিজ্ঞপ্তি</string>
+    <string name="settings_privacy">গোপনীয়তা</string>
+    <string name="settings_about">সম্পর্কে</string>
+    <string name="settings_data_cleared">সেশন মুছে ফেলা হয়েছে</string>
+
+    <!-- Theme -->
+    <string name="theme_light">লাইট</string>
+    <string name="theme_dark">ডার্ক</string>
+    <string name="theme_system">সিস্টেম ডিফল্ট</string>
+
+    <!-- Notifications -->
+    <string name="notifications_enable">বিজ্ঞপ্তি চালু করুন</string>
+    <string name="notification_permission_message">আপনি চ্যাট স্ক্রিনে না থাকলেও, AirWave বিজ্ঞপ্তিগুলি আপনার চ্যাট পার্টনারের নতুন মেসেজ দেখায়। আপনি যেকোনো সময় সিস্টেম সেটিংসে এটি পরিবর্তন করতে পারেন।</string>
+    <string name="notification_permission_allow">অনুমতি দিন</string>
+
+    <!-- Privacy -->
+    <string name="privacy_discoverable">অন্যদের কাছে দৃশ্যমান</string>
+    <string name="privacy_session_only">শুধু-সেশন চ্যাট</string>
+    <string name="privacy_session_only_message">AirWave কিছুই সংরক্ষণ করে না। চ্যাট সেশন সক্রিয় থাকাকালীন মেসেজগুলি শুধুমাত্র মেমরিতে থাকে এবং সংযোগ বিচ্ছিন্ন হলেই মুছে যায়। কোনো চ্যাট ইতিহাস নেই, অ্যাকাউন্ট নেই, ক্লাউড নেই, ইন্টারনেট নেই।</string>
+    <string name="privacy_clear_session">সেশন ডেটা মুছুন</string>
+    <string name="privacy_clear_session_confirm">বর্তমান সেশন শেষ করবেন, সাময়িক চ্যাট ডেটা মুছবেন এবং আপনার নাম ভুলে যাবেন?</string>
+
+    <!-- About -->
+    <string name="about_title">সম্পর্কে</string>
+    <string name="about_version">সংস্করণ %1$s</string>
+    <string name="about_footer">Made By Duggar PVT Ltd. All rights reserved.</string>
+    <string name="about_description">AirWave হলো কাছাকাছি ডিভাইস-থেকে-ডিভাইস কথোপকথনের জন্য একটি অফলাইন Bluetooth চ্যাট অ্যাপ। কোনো ইন্টারনেট নেই, সার্ভার নেই, অ্যাকাউন্ট নেই - শুধু অ্যাপ খুলুন, নাম লিখুন এবং আপনার চারপাশের AirWave ব্যবহারকারীদের সাথে চ্যাট করুন। কথোপকথনগুলি সাময়িক এবং সংরক্ষিত হয় না।</string>
+
+    <!-- Privacy (About) -->
+    <string name="privacy_title">গোপনীয়তা</string>
+    <string name="privacy_content">AirWave-এর জন্য অ্যাকাউন্টের প্রয়োজন নেই এবং এটি Bluetooth-এর মাধ্যমে সম্পূর্ণ অফলাইনে কাজ করে। চ্যাট মেসেজগুলি শুধুমাত্র সক্রিয় সেশনের জন্য মেমরিতে থাকে এবং সংযোগ বিচ্ছিন্ন করলে মুছে যায়। আপনার নাম শুধুমাত্র সুবিধার জন্য স্থানীয়ভাবে মনে রাখা হয় এবং যেকোনো সময় পরিবর্তন বা মুছে ফেলা যায়। AirWave আপনার ডেটা সংগ্রহ, সংরক্ষণ বা প্রেরণ করে না।</string>
+
+    <!-- Connection request -->
+    <string name="connection_request_title">চ্যাট অনুরোধ</string>
+    <string name="connection_request_message">%1$s আপনার সাথে চ্যাট করতে চায়।</string>
+    <string name="connection_accept">গ্রহণ করুন</string>
+    <string name="connection_reject">প্রত্যাখ্যান করুন</string>
+    <string name="connection_block">ব্লক করুন</string>
+
+    <!-- Errors -->
+    <string name="error_bluetooth_disabled">AirWave ব্যবহার করতে Bluetooth চালু করুন।</string>
+    <string name="error_connection_failed">এই ব্যবহারকারীর সাথে সংযোগ করা যায়নি। আবার চেষ্টা করুন।</string>
+    <string name="error_speech_unavailable">এই ডিভাইসে বাক্ স্বীকৃতি উপলব্ধ নয়।</string>
+
+    <!-- Loading -->
+    <string name="loading_connecting">সংযোগ হচ্ছে…</string>
+    <string name="loading_recognizing">শুনছি…</string>
+
+    <!-- Verify (QR) -->
+    <string name="verify_title">যাচাই করুন</string>
+    <string name="verify_close">বন্ধ করুন</string>
+    <string name="verify_my_qr">আমার QR</string>
+    <string name="verify_scan">স্ক্যান করুন</string>
+    <string name="verify_qr_content_desc">আপনার AirWave যাচাইকরণ QR কোড</string>
+    <string name="verify_identity_label">আপনার AirWave পরিচয়</string>
+    <string name="verify_qr_caption">এই QR-এ শুধুমাত্র আপনার AirWave ডাকনাম রয়েছে।</string>
+    <string name="verify_scan_hint">ক্যামেরাটি AirWave যাচাইকরণ QR কোডের দিকে ধরুন</string>
+    <string name="verify_qr_invalid">এটি একটি বৈধ AirWave যাচাইকরণ QR কোড নয়</string>
+    <string name="verify_verified">যাচাইকৃত</string>
+    <string name="verify_verified_msg">এই AirWave পরিচয়টি স্ক্যান করা QR থেকে যাচাই করা হয়েছে।</string>
+    <string name="verify_scan_another">আবার স্ক্যান করুন</string>
+    <string name="verify_permission_required">QR কোড স্ক্যান করতে ক্যামেরা অনুমতি প্রয়োজন</string>
+    <string name="verify_permission_grant">অনুমতি দিন</string>
+    <string name="verify_permission_denied_msg">ক্যামেরা অনুমতি অস্বীকার করা হয়েছে। আমার QR ট্যাব থেকে আপনি এখনও আপনার QR শেয়ার করতে পারেন।</string>
+    <string name="verify_open_settings">সেটিংস খুলুন</string>
+    <string name="verify_camera_unavailable">এই ডিভাইসে ক্যামেরা উপলব্ধ নয়।</string>
+
+    <!-- General -->
+    <string name="ok">ঠিক আছে</string>
+    <string name="cancel">বাতিল করুন</string>
+    <string name="yes">হ্যাঁ</string>
+    <string name="no">না</string>
+    <string name="more_options">আরও বিকল্প</string>
+    <string name="back">পিছনে</string>
+</resources>

@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.airwave.R
 import com.example.airwave.model.ChatMessage
@@ -13,14 +15,31 @@ import java.util.Locale
 
 class MessageListAdapter(
     messages: List<ChatMessage> = emptyList()
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : ListAdapter<ChatMessage, RecyclerView.ViewHolder>(DIFF) {
+
+    init {
+        submitList(messages)
+    }
 
     companion object {
         const val VIEW_TYPE_SENT = 1
         const val VIEW_TYPE_RECEIVED = 2
-    }
 
-    private val items: MutableList<ChatMessage> = ArrayList(messages)
+        private val DIFF = object : DiffUtil.ItemCallback<ChatMessage>() {
+            override fun areItemsTheSame(oldItem: ChatMessage, newItem: ChatMessage): Boolean {
+                // Messages are immutable once created, so full content equality
+                // is a safe item identity (the list only ever grows).
+                return oldItem.senderName == newItem.senderName &&
+                    oldItem.text == newItem.text &&
+                    oldItem.isSent == newItem.isSent &&
+                    oldItem.timestamp == newItem.timestamp
+            }
+
+            override fun areContentsTheSame(oldItem: ChatMessage, newItem: ChatMessage): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
 
     class SentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvMessage: TextView = view.findViewById(R.id.tvMessage)
@@ -34,7 +53,7 @@ class MessageListAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (items[position].isSent) VIEW_TYPE_SENT else VIEW_TYPE_RECEIVED
+        return if (getItem(position).isSent) VIEW_TYPE_SENT else VIEW_TYPE_RECEIVED
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -53,7 +72,7 @@ class MessageListAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val message = items[position]
+        val message = getItem(position)
         val time = formatTime(message.timestamp)
 
         when (holder) {
@@ -69,13 +88,9 @@ class MessageListAdapter(
         }
     }
 
-    override fun getItemCount() = items.size
-
     /** Replaces the backing list and refreshes the list. Called whenever the message list changes. */
     fun updateData(newMessages: List<ChatMessage>) {
-        items.clear()
-        items.addAll(newMessages)
-        notifyDataSetChanged()
+        submitList(newMessages)
     }
 
     private fun formatTime(timestamp: Long): String {

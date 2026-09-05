@@ -79,6 +79,13 @@ class VerifyBottomSheetFragment : BottomSheetDialogFragment() {
     private val mainHandler = Handler(Looper.getMainLooper())
     private val analysisExecutor = Executors.newSingleThreadExecutor()
 
+    /**
+     * Reused scratch buffer for NV21 conversion, so continuous scanning does not
+     * allocate a fresh ByteArray on every camera frame. Only touched from the
+     * single-threaded [analysisExecutor].
+     */
+    private var nv21Buffer: ByteArray? = null
+
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
@@ -362,7 +369,12 @@ class VerifyBottomSheetFragment : BottomSheetDialogFragment() {
         return try {
             val width = image.width
             val height = image.height
-            val output = ByteArray(width * height * 3 / 2)
+            val size = width * height * 3 / 2
+            var output = nv21Buffer
+            if (output == null || output.size != size) {
+                output = ByteArray(size)
+                nv21Buffer = output
+            }
 
             val yPlane = image.planes[0]
             val yRowStride = yPlane.rowStride

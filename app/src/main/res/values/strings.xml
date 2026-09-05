@@ -67,6 +67,9 @@
     <string name="profile_identity">Session identity</string>
     <string name="profile_identity_info">AirWave does not require an account. There is no email, password or online profile - just the name you chose for this session. Chats are temporary and are not saved.</string>
     <string name="profile_change_name">Change Name</string>
+    <string name="profile_save">Save</string>
+    <string name="profile_name_hint">Your name</string>
+    <string name="profile_name_saved">Name updated</string>
     <string name="profile_available">Available nearby</string>
     <string name="profile_in_chat">In a chat session</string>
     <string name="profile_picture">Profile picture</string>
@@ -75,9 +78,6 @@
     <string name="settings_title">Settings</string>
     <string name="settings_appearance">Appearance</string>
     <string name="settings_theme">Theme</string>
-    <string name="settings_accent_color">Accent Color</string>
-    <string name="settings_contrast">Contrast</string>
-    <string name="settings_text_size">Text Size</string>
     <string name="settings_language">Language</string>
     <string name="settings_notifications">Notifications</string>
     <string name="settings_privacy">Privacy</string>
@@ -88,26 +88,6 @@
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
     <string name="theme_system">System Default</string>
-
-    <!-- Accent colors -->
-    <string name="accent_default">Default AirWave</string>
-    <string name="accent_blue">Blue</string>
-    <string name="accent_purple">Purple</string>
-    <string name="accent_green">Green</string>
-    <string name="accent_orange">Orange</string>
-    <string name="accent_red">Red</string>
-    <string name="accent_teal">Teal</string>
-    <string name="accent_pink">Pink</string>
-
-    <!-- Contrast -->
-    <string name="contrast_normal">Normal Contrast</string>
-    <string name="contrast_high">High Contrast</string>
-
-    <!-- Text size -->
-    <string name="text_size_small">Small</string>
-    <string name="text_size_default">Default</string>
-    <string name="text_size_large">Large</string>
-    <string name="text_size_extra_large">Extra Large</string>
 
     <!-- Notifications -->
     <string name="notifications_enable">Enable Notifications</string>

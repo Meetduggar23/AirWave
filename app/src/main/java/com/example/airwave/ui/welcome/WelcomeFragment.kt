@@ -83,7 +83,8 @@ class WelcomeFragment : Fragment() {
             nickname.isEmpty() -> {
                 etName.error = getString(R.string.welcome_error_empty)
             }
-            nickname.length < 2 || nickname.length > 20 -> {
+            nickname.length < PreferencesHelper.MIN_NICKNAME_LENGTH ||
+                nickname.length > PreferencesHelper.MAX_NICKNAME_LENGTH -> {
                 etName.error = getString(R.string.welcome_error_length)
             }
             else -> {

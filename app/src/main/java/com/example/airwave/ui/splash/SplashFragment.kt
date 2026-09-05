@@ -13,6 +13,15 @@ import com.example.airwave.util.PreferencesHelper
 
 class SplashFragment : Fragment() {
 
+    // Held as fields so the delayed navigation can be cancelled when the
+    // fragment is destroyed (otherwise the Runnable keeps the fragment alive
+    // until the 1200ms delay fires).
+    private val splashHandler = Handler(Looper.getMainLooper())
+    private val splashRunnable = Runnable {
+        if (!isAdded) return@Runnable
+        navigate()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -22,10 +31,12 @@ class SplashFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Handler(Looper.getMainLooper()).postDelayed({
-            if (!isAdded) return@postDelayed
-            navigate()
-        }, 1200)
+        splashHandler.postDelayed(splashRunnable, 1200)
+    }
+
+    override fun onDestroyView() {
+        splashHandler.removeCallbacks(splashRunnable)
+        super.onDestroyView()
     }
 
     private fun navigate() {

@@ -16,10 +16,16 @@ object LanguageHelper {
         return context.createConfigurationContext(config)
     }
 
+    /**
+     * Display names are always shown in their native script so the language
+     * selector is readable even while the app is running in another language.
+     */
     fun getLanguageName(code: String): String {
         return when (code) {
-            "en" -> "English"
-            "hi" -> "Hindi"
+            "hi" -> "हिंदी"
+            "te" -> "తెలుగు"
+            "mr" -> "मराठी"
+            "bn" -> "বাংলা"
             else -> "English"
         }
     }
@@ -27,7 +33,10 @@ object LanguageHelper {
     fun getAvailableLanguages(): List<Pair<String, String>> {
         return listOf(
             "en" to "English",
-            "hi" to "Hindi"
+            "hi" to "हिंदी",
+            "te" to "తెలుగు",
+            "mr" to "मराठी",
+            "bn" to "বাংলা"
         )
     }
 }

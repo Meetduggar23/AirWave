@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AirWave</string>
+    <string name="tagline">దగ్గరగా చాట్ చేయండి. అనుసంధానంగా ఉండండి.</string>
+
+    <!-- Welcome / name entry -->
+    <string name="welcome_question">మిమ్మల్ని ఏమని పిలుద్దాం?</string>
+    <string name="welcome_name_hint">మీ పేరును నమోదు చేయండి</string>
+    <string name="welcome_continue">కొనసాగించు</string>
+    <string name="welcome_note">ఖాతా లేదు. ఇమెయిల్ లేదు. పాస్‌వర్డ్ లేదు.\nమీ పేరు ఈ సెషన్ కోసం మాత్రమే ఉపయోగించబడుతుంది.</string>
+    <string name="welcome_error_empty">కొనసాగించడానికి దయచేసి పేరును నమోదు చేయండి</string>
+    <string name="welcome_error_length">పేరు 2 నుండి 20 అక్షరాల మధ్య ఉండాలి</string>
+
+    <!-- Home -->
+    <string name="home_greeting">నమస్కారం, %1$s</string>
+    <string name="home_bluetooth_status">బ్లూటూత్</string>
+    <string name="home_connection_status">కనెక్షన్</string>
+    <string name="home_not_connected">కనెక్ట్ కాలేదు</string>
+    <string name="home_find_users">సమీప వినియోగదారులను కనుగొనండి</string>
+    <string name="home_identity_hint">మీ AirWave గుర్తింపు</string>
+    <string name="home_profile">ప్రొఫైల్</string>
+    <string name="home_settings">సెట్టింగ్‌లు</string>
+    <string name="home_active_chat">క్రియాశీల చాట్</string>
+    <string name="home_active_chat_with">%1$sతో చాట్ జరుగుతోంది</string>
+
+    <!-- Bluetooth status -->
+    <string name="bluetooth_on">సిద్ధంగా ఉంది</string>
+    <string name="bluetooth_off">బ్లూటూత్ ఆఫ్</string>
+    <string name="bluetooth_switch">బ్లూటూత్ స్విచ్</string>
+    <string name="bluetooth_turn_on">బ్లూటూత్ ఆన్ చేయండి</string>
+    <string name="bluetooth_unavailable">ఈ పరికరంలో బ్లూటూత్ అందుబాటులో లేదు</string>
+    <string name="bluetooth_connecting">కనెక్ట్ అవుతోంది…</string>
+    <string name="bluetooth_connected">కనెక్ట్ అయింది</string>
+    <string name="bluetooth_disconnected">డిస్‌కనెక్ట్ అయింది</string>
+    <string name="bluetooth_available">అందుబాటులో ఉంది</string>
+    <string name="bluetooth_not_available">అందుబాటులో లేదు</string>
+
+    <!-- Nearby users -->
+    <string name="nearby_title">సమీప వినియోగదారులు</string>
+    <string name="nearby_scanning">సమీపంలోని AirWave వినియోగదారుల కోసం వెతుకుతోంది…</string>
+    <string name="nearby_scan_again">మళ్లీ స్కాన్ చేయండి</string>
+    <string name="nearby_scan_requires_bluetooth">సమీపంలోని AirWave వినియోగదారులను వెతకడానికి బ్లూటూత్ ఆన్ చేయండి.</string>
+    <string name="nearby_stop">స్కానింగ్ ఆపండి</string>
+    <string name="nearby_connect">కనెక్ట్ చేయండి</string>
+    <string name="nearby_connect_confirm">%1$sతో కనెక్ట్ చేయాలా?</string>
+    <string name="nearby_connecting">కనెక్ట్ అవుతోంది…</string>
+    <string name="nearby_connected">కనెక్ట్ అయింది</string>
+    <string name="nearby_connection_failed">కనెక్ట్ చేయడం సాధ్యం కాలేదు. మళ్లీ ప్రయత్నించండి.</string>
+    <string name="nearby_no_devices">సమీపంలో AirWave వినియోగదారులు కనబడలేదు.\nఇతర పరికరంలో AirWave తెరవబడి ఉందని, బ్లూటూత్ ఆన్‌లో ఉందని మరియు పరికరం కనిపిస్తోందని నిర్ధారించుకోండి.</string>
+    <string name="nearby_busy">మీకు ఇప్పటికే ఒక క్రియాశీల చాట్ సెషన్ ఉంది. ముందుగా డిస్‌కనెక్ట్ చేయండి.</string>
+
+    <!-- Chat -->
+    <string name="chat_input_hint">సందేశం టైప్ చేయండి…</string>
+    <string name="chat_send">పంపండి</string>
+    <string name="chat_voice">వాయిస్ ఇన్‌పుట్</string>
+    <string name="chat_disconnect">డిస్‌కనెక్ట్</string>
+    <string name="chat_empty">ఇంకా సందేశాలు లేవు. హలో చెప్పండి!</string>
+    <string name="chat_connection_lost">కనెక్షన్ పోయింది</string>
+    <string name="chat_request_declined">మీ చాట్ అభ్యర్థన అంగీకరించబడలేదు.</string>
+    <string name="disconnect_confirm_message">%1$s నుండి డిస్‌కనెక్ట్ చేయాలా?\nసంభాషణ తొలగించబడుతుంది, తిరిగి పొందలేరు.</string>
+    <string name="connection_lost_title">కనెక్షన్ పోయింది</string>
+    <string name="connection_lost_back">సమీప వినియోగదారులకు తిరిగి వెళ్లండి</string>
+    <string name="connection_lost_retry">మళ్లీ ప్రయత్నించండి</string>
+
+    <!-- Profile / identity -->
+    <string name="profile_title">మీ AirWave గుర్తింపు</string>
+    <string name="profile_identity">సెషన్ గుర్తింపు</string>
+    <string name="profile_identity_info">AirWaveకి ఖాతా అవసరం లేదు. ఇమెయిల్, పాస్‌వర్డ్ లేదా ఆన్‌లైన్ ప్రొఫైల్ లేవు - మీరు ఈ సెషన్ కోసం ఎంచుకున్న పేరు మాత్రమే. చాట్‌లు తాత్కాలికమైనవి, సేవ్ చేయబడవు.</string>
+    <string name="profile_change_name">పేరు మార్చు</string>
+    <string name="profile_save">సేవ్ చేయి</string>
+    <string name="profile_name_hint">మీ పేరు</string>
+    <string name="profile_name_saved">పేరు నవీకరించబడింది</string>
+    <string name="profile_available">సమీపంలో అందుబాటులో</string>
+    <string name="profile_in_chat">చాట్ సెషన్‌లో</string>
+    <string name="profile_picture">ప్రొఫైల్ చిత్రం</string>
+
+    <!-- Settings -->
+    <string name="settings_title">సెట్టింగ్‌లు</string>
+    <string name="settings_appearance">రూపం</string>
+    <string name="settings_theme">థీమ్</string>
+    <string name="settings_language">భాష</string>
+    <string name="settings_notifications">నోటిఫికేషన్లు</string>
+    <string name="settings_privacy">గోప్యత</string>
+    <string name="settings_about">గురించి</string>
+    <string name="settings_data_cleared">సెషన్ క్లియర్ చేయబడింది</string>
+
+    <!-- Theme -->
+    <string name="theme_light">లైట్</string>
+    <string name="theme_dark">డార్క్</string>
+    <string name="theme_system">సిస్టమ్ డిఫాల్ట్</string>
+
+    <!-- Notifications -->
+    <string name="notifications_enable">నోటిఫికేషన్లను ప్రారంభించండి</string>
+    <string name="notification_permission_message">మీరు చాట్ స్క్రీన్‌లో లేనప్పుడు కూడా, AirWave నోటిఫికేషన్లు మీ చాట్ భాగస్వామి నుండి కొత్త సందేశాలను చూపుతాయి. దీన్ని మీరు ఎప్పుడైనా సిస్టమ్ సెట్టింగ్‌లలో మార్చవచ్చు.</string>
+    <string name="notification_permission_allow">అనుమతించు</string>
+
+    <!-- Privacy -->
+    <string name="privacy_discoverable">ఇతరులకు కనిపించేలా ఉంటుంది</string>
+    <string name="privacy_session_only">సెషన్-మాత్రమే చాట్</string>
+    <string name="privacy_session_only_message">AirWave ఏమీ నిల్వ ఉంచదు. చాట్ సెషన్ క్రియాశీలకంగా ఉన్నంత కాలం సందేశాలు మెమరీలో మాత్రమే ఉంటాయి, డిస్‌కనెక్ట్ అవగానే తొలగించబడతాయి. చాట్ చరిత్ర లేదు, ఖాతా లేదు, క్లౌడ్ లేదు, ఇంటర్నెట్ లేదు.</string>
+    <string name="privacy_clear_session">సెషన్ డేటా క్లియర్ చేయండి</string>
+    <string name="privacy_clear_session_confirm">ప్రస్తుత సెషన్‌ను ముగించి, తాత్కాలిక చాట్ డేటాను క్లియర్ చేసి, మీ పేరును మర్చిపోవాలా?</string>
+
+    <!-- About -->
+    <string name="about_title">గురించి</string>
+    <string name="about_version">వెర్షన్ %1$s</string>
+    <string name="about_footer">Made By Duggar PVT Ltd. All rights reserved.</string>
+    <string name="about_description">AirWave అనేది దగ్గరగా ఉన్న పరికరాల మధ్య సంభాషణల కోసం ఒక ఆఫ్‌లైన్ బ్లూటూత్ చాట్ యాప్. ఇంటర్నెట్ లేదు, సర్వర్లు లేవు, ఖాతా లేదు - యాప్ తెరిచి, పేరు నమోదు చేసి, మీ చుట్టూ ఉన్న AirWave వినియోగదారులతో చాట్ చేయండి. సంభాషణలు తాత్కాలికమైనవి, సేవ్ చేయబడవు.</string>
+
+    <!-- Privacy (About) -->
+    <string name="privacy_title">గోప్యత</string>
+    <string name="privacy_content">AirWaveకి ఖాతా అవసరం లేదు మరియు బ్లూటూత్ ద్వారా పూర్తిగా ఆఫ్‌లైన్‌లో పనిచేస్తుంది. చాట్ సందేశాలు క్రియాశీల సెషన్ కోసం మాత్రమే మెమరీలో ఉంటాయి, మీరు డిస్‌కనెక్ట్ చేసినప్పుడు క్లియర్ చేయబడతాయి. మీ పేరు సౌలభ్యం కోసం మాత్రమే స్థానికంగా గుర్తుంచుకోబడుతుంది, దీన్ని ఎప్పుడైనా మార్చవచ్చు లేదా క్లియర్ చేయవచ్చు. AirWave మీ డేటాను సేకరించదు, నిల్వ చేయదు, ప్రసారం చేయదు.</string>
+
+    <!-- Connection request -->
+    <string name="connection_request_title">చాట్ అభ్యర్థన</string>
+    <string name="connection_request_message">%1$s మీతో చాట్ చేయాలనుకుంటున్నారు.</string>
+    <string name="connection_accept">అంగీకరించు</string>
+    <string name="connection_reject">తిరస్కరించు</string>
+    <string name="connection_block">బ్లాక్ చేయి</string>
+
+    <!-- Errors -->
+    <string name="error_bluetooth_disabled">AirWave ఉపయోగించడానికి బ్లూటూత్ ఆన్ చేయండి.</string>
+    <string name="error_connection_failed">ఈ వినియోగదారుతో కనెక్ట్ చేయడం సాధ్యం కాలేదు. మళ్లీ ప్రయత్నించండి.</string>
+    <string name="error_speech_unavailable">ఈ పరికరంలో వాక్య గుర్తింపు అందుబాటులో లేదు.</string>
+
+    <!-- Loading -->
+    <string name="loading_connecting">కనెక్ట్ అవుతోంది…</string>
+    <string name="loading_recognizing">వింటున్నాను…</string>
+
+    <!-- Verify (QR) -->
+    <string name="verify_title">ధృవీకరించు</string>
+    <string name="verify_close">మూసివేయి</string>
+    <string name="verify_my_qr">నా QR</string>
+    <string name="verify_scan">స్కాన్ చేయండి</string>
+    <string name="verify_qr_content_desc">మీ AirWave ధృవీకరణ QR కోడ్</string>
+    <string name="verify_identity_label">మీ AirWave గుర్తింపు</string>
+    <string name="verify_qr_caption">ఈ QRలో మీ AirWave మారుపేరు మాత్రమే ఉంటుంది.</string>
+    <string name="verify_scan_hint">కెమెరాను AirWave ధృవీకరణ QR కోడ్ వైపు చూపండి</string>
+    <string name="verify_qr_invalid">ఇది సరైన AirWave ధృవీకరణ QR కోడ్ కాదు</string>
+    <string name="verify_verified">ధృవీకరించబడింది</string>
+    <string name="verify_verified_msg">ఈ AirWave గుర్తింపు స్కాన్ చేసిన QR నుండి ధృవీకరించబడింది.</string>
+    <string name="verify_scan_another">మళ్లీ స్కాన్ చేయండి</string>
+    <string name="verify_permission_required">QR కోడ్‌లను స్కాన్ చేయడానికి కెమెరా అనుమతి అవసరం</string>
+    <string name="verify_permission_grant">అనుమతి ఇవ్వండి</string>
+    <string name="verify_permission_denied_msg">కెమెరా అనుమతి తిరస్కరించబడింది. My QR ట్యాబ్ నుండి మీరు ఇప్పటికీ మీ QRని పంచుకోవచ్చు.</string>
+    <string name="verify_open_settings">సెట్టింగ్‌లు తెరవండి</string>
+    <string name="verify_camera_unavailable">ఈ పరికరంలో కెమెరా అందుబాటులో లేదు.</string>
+
+    <!-- General -->
+    <string name="ok">సరే</string>
+    <string name="cancel">రద్దు చేయి</string>
+    <string name="yes">అవును</string>
+    <string name="no">కాదు</string>
+    <string name="more_options">మరిన్ని ఎంపికలు</string>
+    <string name="back">వెనుకకు</string>
+</resources>

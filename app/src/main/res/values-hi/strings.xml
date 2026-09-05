@@ -67,6 +67,9 @@
     <string name="profile_identity">सत्र पहचान</string>
     <string name="profile_identity_info">AirWave के लिए खाते की आवश्यकता नहीं है। कोई ईमेल, पासवर्ड या ऑनलाइन प्रोफ़ाइल नहीं है - केवल वह नाम जो आपने इस सत्र के लिए चुना है। चैट अस्थायी होती हैं और सहेजी नहीं जातीं।</string>
     <string name="profile_change_name">नाम बदलें</string>
+    <string name="profile_save">सहेजें</string>
+    <string name="profile_name_hint">आपका नाम</string>
+    <string name="profile_name_saved">नाम अपडेट हो गया</string>
     <string name="profile_available">आस-पास उपलब्ध</string>
     <string name="profile_in_chat">चैट सत्र में</string>
     <string name="profile_picture">प्रोफ़ाइल फ़ोटो</string>
@@ -75,9 +78,6 @@
     <string name="settings_title">सेटिंग्स</string>
     <string name="settings_appearance">दिखावट</string>
     <string name="settings_theme">थीम</string>
-    <string name="settings_accent_color">एक्सेंट रंग</string>
-    <string name="settings_contrast">कंट्रास्ट</string>
-    <string name="settings_text_size">टेक्स्ट साइज़</string>
     <string name="settings_language">भाषा</string>
     <string name="settings_notifications">सूचनाएं</string>
     <string name="settings_privacy">गोपनीयता</string>
@@ -88,26 +88,6 @@
     <string name="theme_light">लाइट</string>
     <string name="theme_dark">डार्क</string>
     <string name="theme_system">सिस्टम डिफ़ॉल्ट</string>
-
-    <!-- Accent colors -->
-    <string name="accent_default">डिफ़ॉल्ट AirWave</string>
-    <string name="accent_blue">नीला</string>
-    <string name="accent_purple">बैंगनी</string>
-    <string name="accent_green">हरा</string>
-    <string name="accent_orange">नारंगी</string>
-    <string name="accent_red">लाल</string>
-    <string name="accent_teal">हरिनील</string>
-    <string name="accent_pink">गुलाबी</string>
-
-    <!-- Contrast -->
-    <string name="contrast_normal">सामान्य कंट्रास्ट</string>
-    <string name="contrast_high">उच्च कंट्रास्ट</string>
-
-    <!-- Text size -->
-    <string name="text_size_small">छोटा</string>
-    <string name="text_size_default">डिफ़ॉल्ट</string>
-    <string name="text_size_large">बड़ा</string>
-    <string name="text_size_extra_large">बहुत बड़ा</string>
 
     <!-- Notifications -->
     <string name="notifications_enable">सूचनाएं सक्षम करें</string>

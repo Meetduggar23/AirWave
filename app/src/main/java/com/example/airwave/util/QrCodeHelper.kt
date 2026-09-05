@@ -26,8 +26,6 @@ object QrCodeHelper {
     /** Prefix that marks a QR as an AirWave verification QR. */
     const val VERIFY_PREFIX = "AW/VERIFY|"
 
-    private const val MAX_NAME_LENGTH = 24
-
     /** Builds the payload for the user's own verification QR. */
     fun buildVerifyPayload(nickname: String): String {
         return VERIFY_PREFIX + nickname.trim()
@@ -42,7 +40,9 @@ object QrCodeHelper {
         val trimmed = raw.trim()
         if (!trimmed.startsWith(VERIFY_PREFIX)) return null
         val name = trimmed.removePrefix(VERIFY_PREFIX).trim()
-        if (name.isEmpty() || name.length > MAX_NAME_LENGTH) return null
+        // Accept the same length the app allows when a nickname is created, so
+        // the QR verification limit never contradicts the name entry limit.
+        if (name.isEmpty() || name.length > PreferencesHelper.MAX_NICKNAME_LENGTH) return null
         if (name.any { it == '|' || it == '\n' || it == '\r' }) return null
         return name
     }
@@ -89,8 +89,9 @@ object QrCodeHelper {
 
     /**
      * Decodes any QR content from NV21 camera data (Y plane with interleaved V/U).
-     * Width/height are the image dimensions; cropping and mirroring are unused
-     * for the rear camera.
+     * Width/height are the image dimensions; the trailing `false` disables
+     * horizontal mirroring, which is correct for the rear camera (cropping is
+     * left unused).
      */
     fun decodeQrFromNv21(data: ByteArray, width: Int, height: Int): String? {
         return try {

@@ -52,6 +52,31 @@
                 android:gravity="center"
                 android:layout_marginBottom="4dp" />
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutNameEditor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:visibility="gone"
+                app:boxStrokeColor="@color/airwave_accent"
+                app:hintTextColor="@color/airwave_accent"
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusBottomEnd="12dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/profile_name_hint"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:imeOptions="actionDone"
+                    android:textColor="@color/aw_text_primary"
+                    android:textColorHint="@color/aw_text_secondary" />
+            </com.google.android.material.textfield.TextInputLayout>
+
             <TextView
                 android:id="@+id/tvStatus"
                 android:layout_width="match_parent"
@@ -105,9 +130,15 @@
                 android:textSize="16sp"
                 android:textAllCaps="false"
                 android:textColor="@color/airwave_accent"
+                android:gravity="center"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:strokeColor="@color/airwave_accent"
-                app:cornerRadius="16dp" />
+                app:cornerRadius="16dp"
+                app:icon="@drawable/ic_edit"
+                app:iconGravity="end"
+                app:iconTint="@color/airwave_accent"
+                app:iconPadding="0dp"
+                android:paddingEnd="16dp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

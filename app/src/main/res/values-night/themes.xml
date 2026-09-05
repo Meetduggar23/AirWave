@@ -17,6 +17,9 @@
         <item name="android:windowBackground">@color/aw_bg</item>
     </style>
 
+    <!-- Mirrors values/themes.xml so the night variant defines the full set of styles. -->
+    <style name="Theme.AirWave" parent="Base.Theme.AirWave" />
+
     <style name="Theme.AirWave.Splash" parent="Base.Theme.AirWave">
         <item name="android:windowBackground">@color/aw_bg</item>
         <item name="android:statusBarColor">@color/aw_bg</item>

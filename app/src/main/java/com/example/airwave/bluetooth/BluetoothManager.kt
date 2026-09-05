@@ -80,6 +80,11 @@ class BluetoothManager private constructor(private val appContext: Context) {
     /** Guards message list updates so concurrent appends can never be lost. */
     private val messagesLock = Any()
 
+    /**
+     * Written by the accept-loop thread and read/nulled by the main thread via
+     * [stopListening]; @Volatile keeps both threads from seeing stale values.
+     */
+    @Volatile
     private var serverSocket: BluetoothServerSocket? = null
 
     /** The accept loop thread. A fresh thread is created on every startListening(). */
@@ -401,10 +406,14 @@ class BluetoothManager private constructor(private val appContext: Context) {
         _connectionState.postValue(ConnectionState.CONNECTING)
         _peerName.postValue(null)
 
+        // Start the message reader FIRST so the outgoing HELLO below is written
+        // through its live stream. Sending the HELLO before the thread exists
+        // would silently drop the handshake line (sendRawLine bails out when no
+        // running thread is available) and the peer would never learn our name.
+        startListeningForMessages(socket)
+
         // Advertise who we are; the handshake line confirms AirWave compatibility.
         sendRawLine("$PROTO_HELLO${PreferencesHelper.nickname.trim()}")
-
-        startListeningForMessages(socket)
     }
 
     private fun startListeningForMessages(socket: BluetoothSocket) {
@@ -607,6 +616,11 @@ class BluetoothManager private constructor(private val appContext: Context) {
         const val PROTO_HELLO = "AW/HELLO|"
         const val PROTO_READY = "AW/READY"
 
+        /**
+         * RFCOMM service UUID for AirWave sessions. Treat it as a protocol
+         * version: changing it makes older app versions unable to connect, so
+         * it must only ever change together with the handshake protocol.
+         */
         val AIRWAVE_UUID: UUID = UUID.fromString("fa87bc08-64ce-45e7-9c49-259b4791342f")
 
         @Volatile

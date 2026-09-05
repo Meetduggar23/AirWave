@@ -144,11 +144,6 @@ class HomeFragment : Fragment() {
         unregisterBluetoothStateReceiver()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        unregisterBluetoothStateReceiver()
-    }
-
     private fun updateGreeting() {
         val nickname = PreferencesHelper.nickname.ifBlank { "there" }
         tvGreeting.text = getString(R.string.home_greeting, nickname)

@@ -13,6 +13,14 @@ import android.content.SharedPreferences
 object PreferencesHelper {
     private const val PREF_NAME = "airwave_prefs"
 
+    /**
+     * Nickname validation limits - the single source of truth for how long the
+     * AirWave identity may be. Every screen that validates the name (Welcome,
+     * Profile) and the QR verification payload all read these constants.
+     */
+    const val MIN_NICKNAME_LENGTH = 2
+    const val MAX_NICKNAME_LENGTH = 20
+
     private const val KEY_NICKNAME = "nickname"
     private const val KEY_BLOCKED_USERS = "blocked_users"
     private const val KEY_THEME_MODE = "theme_mode"
