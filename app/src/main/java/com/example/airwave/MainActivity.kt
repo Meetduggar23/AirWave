@@ -17,7 +17,7 @@ import com.example.airwave.bluetooth.BluetoothManager
 import com.example.airwave.util.LanguageHelper
 import com.example.airwave.util.PreferencesHelper
 
-class pushMainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
     private lateinit var bluetoothManager: BluetoothManager
