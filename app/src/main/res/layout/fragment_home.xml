@@ -216,7 +216,7 @@
                 android:textAllCaps="false"
                 android:backgroundTint="@color/airwave_accent"
                 android:layout_marginBottom="24dp"
-                app:icon="@drawable/ic_bluetooth"
+                app:icon="@drawable/ic_people_arrows"
                 app:iconTint="@color/white"
                 app:iconGravity="textStart"
                 app:cornerRadius="16dp" />
